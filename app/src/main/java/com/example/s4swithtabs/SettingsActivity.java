@@ -3,7 +3,6 @@ package com.example.s4swithtabs;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,16 +13,15 @@ import java.util.Arrays;
 
 public class SettingsActivity extends ListActivity{
 
-    final String[] catNamesArray = new String[]{"Выйти", "Изменить профиль", "Уведомления"};
+    final String[] settingsList = new String[]{"Выйти", "Изменить профиль", "Уведомления"};
 
     private ArrayAdapter<String> mAdapter;
-    private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(catNamesArray));
+    private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(settingsList));
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
 
         mAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, catNamesList);
