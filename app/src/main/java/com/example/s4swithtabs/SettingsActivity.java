@@ -1,6 +1,7 @@
 package com.example.s4swithtabs;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 
 public class SettingsActivity extends ListActivity{
 
-    final String[] settingsList = new String[]{"Выйти", "Изменить профиль", "Уведомления"};
+    final String[] settingsList = new String[]{"Выйти", "Изменить профиль","Test ChatRoom", "Уведомления"};
 
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(settingsList));
@@ -39,8 +40,14 @@ public class SettingsActivity extends ListActivity{
         else if (position == 1)
             Toast.makeText(getApplicationContext(),
                     "ВЫ ВЫБРАЛИ " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        else if (position == 2)
+        {
+            Intent intent = new Intent(SettingsActivity.this, ChatRoomActivity.class);
+            startActivity(intent);
+        }
         else Toast.makeText(getApplicationContext(),
                     "Вы урод и выбрали " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
     }
 
 
