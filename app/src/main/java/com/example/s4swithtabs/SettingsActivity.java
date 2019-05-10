@@ -39,6 +39,7 @@ public class SettingsActivity extends ListActivity{
         if (position == 0)
         {
             AuthUI.getInstance().signOut(this);
+            finish();
         }
         else if (position == 1)
             Toast.makeText(getApplicationContext(),
