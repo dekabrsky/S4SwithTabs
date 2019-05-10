@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,8 +37,9 @@ public class SettingsActivity extends ListActivity{
         super.onListItemClick(l, v, position, id);
 
         if (position == 0)
-            Toast.makeText(getApplicationContext(),
-                "Вы выбрали " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        {
+            AuthUI.getInstance().signOut(this);
+        }
         else if (position == 1)
             Toast.makeText(getApplicationContext(),
                     "ВЫ ВЫБРАЛИ " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
