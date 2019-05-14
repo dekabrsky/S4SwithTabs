@@ -45,16 +45,6 @@
         android:layout_toLeftOf="@+id/editText2"
         android:layout_toStartOf="@+id/editText2" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:layout_below="@+id/editText2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
-        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,9 +56,9 @@
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/editText3"
-        android:layout_toLeftOf="@+id/editText3"
-        android:layout_toStartOf="@+id/editText3" />
+        android:layout_alignBottom="@+id/dateButton"
+        android:layout_toLeftOf="@+id/dateButton"
+        android:layout_toStartOf="@+id/dateButton" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -91,19 +81,29 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/editText4"
-        android:layout_toLeftOf="@+id/editText4"
-        android:layout_toStartOf="@+id/editText4" />
+        android:layout_alignBottom="@+id/timeButton"
+        android:layout_toLeftOf="@+id/timeButton"
+        android:layout_toStartOf="@+id/timeButton" />
 
-    <EditText
+    <ImageButton
+        android:id="@+id/dateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editText4"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/editText2"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:onClick="setDate"
+        app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/timeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateButton"
         android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        android:layout_toEndOf="@+id/textView3"
+        android:onClick="setTime"
+        app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -132,13 +132,37 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <EditText
+        android:id="@+id/editText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
-        android:onClick="setDate"
-        app:srcCompat="@drawable/ic_date_range_black_24dp" />
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/timeButton"
+        android:layout_toRightOf="@+id/textView5"
+        android:layout_toEndOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_alignBaseline="@id/editText3"
+        android:layout_alignBottom="@+id/editText3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center"
+        android:layout_toStartOf="@+id/editText"
+        android:layout_toLeftOf="@+id/editText3"
+        android:gravity="center"
+        android:text="Инфо"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+
 </RelativeLayout>

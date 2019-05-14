@@ -25,8 +25,8 @@ public class EventCreation extends AppCompatActivity {
         setContentView(R.layout.activity_event_creation);
 
 
-        //currentDateTime=(TextView)findViewById(R.id.currentDateTime);
-        //setInitialDateTime();
+        currentDateTime=(TextView)findViewById(R.id.test);
+        setInitialDateTime();
     }
     // отображаем диалоговое окно для выбора даты
     public void setDate(View v) {
