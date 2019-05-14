@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatRoomActivity"></activity>
+        <activity  android:name=".EventCreation" />
+        <activity android:name=".ChatRoomActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MessengesActivity" />
         <activity android:name=".EventsActivity" />
