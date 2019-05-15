@@ -16,6 +16,7 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class ChatRoomActivity extends AppCompatActivity {
 
 
@@ -27,16 +28,18 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         FloatingActionButton fab;
         fab = (FloatingActionButton)findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
 
+
+
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
                         .getReference()
+                        .child("Messages")
                         .push()
                         .setValue(new ChatMessage(input.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -104,7 +107,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         FirebaseListAdapter<ChatMessage> adapter;
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference()) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child("Messages")) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
