@@ -1,15 +1,12 @@
 package com.example.s4swithtabs;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -17,15 +14,19 @@ import java.util.Calendar;
 
 public class EventCreation extends AppCompatActivity {
 
-    TextView currentDateTime;
+    TextView currentDate;
+    TextView currentTime;
     Calendar dateAndTime=Calendar.getInstance();
+    EventModel event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
 
 
-        currentDateTime=(TextView)findViewById(R.id.test);
+        currentDate =(TextView)findViewById(R.id.test);
+        currentTime = (TextView)findViewById(R.id.test2);
+
         setInitialDateTime();
     }
     // отображаем диалоговое окно для выбора даты
@@ -44,13 +45,19 @@ public class EventCreation extends AppCompatActivity {
                 dateAndTime.get(Calendar.MINUTE), true)
                 .show();
     }
+
+    private void setEventData(View v){
+        
+    }
+
     // установка начальных даты и времени
     private void setInitialDateTime() {
 
-        currentDateTime.setText(DateUtils.formatDateTime(this,
+        currentDate.setText(DateUtils.formatDateTime(this,
                 dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
-                        | DateUtils.FORMAT_SHOW_TIME));
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+        currentTime.setText(DateUtils.formatDateTime(this,
+                dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
     }
 
     // установка обработчика выбора времени

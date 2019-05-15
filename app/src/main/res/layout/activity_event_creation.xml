@@ -162,7 +162,19 @@
         android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="(Выбранная дата)"
+        android:layout_below="@+id/editText2"
+        android:layout_toRightOf="@+id/dateButton"
+        android:layout_toEndOf="@+id/dateButton"/>
+
+    <TextView
+        android:id="@+id/test2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Выбранное время)"
+        android:layout_below="@+id/dateButton"
+        android:layout_toRightOf="@+id/timeButton"
+        android:layout_toEndOf="@+id/timeButton"/>
 
 
 </RelativeLayout>
