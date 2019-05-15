@@ -5,7 +5,7 @@ import java.util.Date;
 public class EventModel {
     private String eventName;
     private String eventCreator;
-    public String eventAdress;
+    private String eventAdress;
     private long eventDate;
     private long eventTime;
     private String eventInfo;
@@ -13,6 +13,10 @@ public class EventModel {
     public EventModel(String eventName, String eventCreator) {
         this.eventCreator = eventCreator;
         this.eventName= eventName;
+        this.eventAdress = eventAdress;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
+        this.eventInfo = eventInfo;
 
         // Initialize to current time
        eventTime = new Date().getTime();
