@@ -37,6 +37,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
                         .getReference()
+                        .child("Messages")
                         .push()
                         .setValue(new ChatMessage(input.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -104,21 +105,23 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         FirebaseListAdapter<ChatMessage> adapter;
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference()) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child("Messages")) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
+                if (model.getMessageText() != null){
                 TextView messageText = (TextView)v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
                 TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
                 // Set their text
+
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
 
                 // Format the date before showing it
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
+                        model.getMessageTime()));}
             }
         };
 

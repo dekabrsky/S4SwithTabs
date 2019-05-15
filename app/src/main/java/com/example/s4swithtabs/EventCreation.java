@@ -7,8 +7,15 @@ import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
@@ -18,15 +25,20 @@ public class EventCreation extends AppCompatActivity {
     TextView currentTime;
     Calendar dateAndTime=Calendar.getInstance();
     EventModel event;
+    EditText eventName;
+    EditText eventAdress;
+    EditText eventInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
 
-
         currentDate =(TextView)findViewById(R.id.test);
         currentTime = (TextView)findViewById(R.id.test2);
-
+        eventName = (EditText)findViewById(R.id.editText);
+        eventAdress = (EditText)findViewById(R.id.editText2);
+        eventInfo = (EditText)findViewById(R.id.editText3);
         setInitialDateTime();
     }
     // отображаем диалоговое окно для выбора даты
@@ -46,8 +58,21 @@ public class EventCreation extends AppCompatActivity {
                 .show();
     }
 
-    private void setEventData(View v){
-        
+    public void setEventData(View v){
+       event = new EventModel(
+               eventName.getText().toString(),
+               "fff"
+               );
+       event.setEventAdress(eventAdress.getText().toString());
+       event.setEventInfo(eventInfo.getText().toString());
+        event.setEventDate(555);
+        event.setEventTime(555);
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Events")
+                .push()
+                .setValue(event)
+                ;
     }
 
     // установка начальных даты и времени
