@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-//import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,11 +32,11 @@ public class EventCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
 
-        currentDate =(TextView)findViewById(R.id.test);
-        currentTime = (TextView)findViewById(R.id.test2);
-        eventName = (EditText)findViewById(R.id.editText);
-        eventAdress = (EditText)findViewById(R.id.editText2);
-        eventInfo = (EditText)findViewById(R.id.editText3);
+        currentDate = findViewById(R.id.test);
+        currentTime = findViewById(R.id.test2);
+        eventName = findViewById(R.id.editText);
+        eventAdress = findViewById(R.id.editText2);
+        eventInfo = findViewById(R.id.editText3);
         setInitialDateTime();
     }
     // отображаем диалоговое окно для выбора даты
@@ -59,14 +57,14 @@ public class EventCreation extends AppCompatActivity {
     }
 
     public void setEventData(View v){
-       event = new EventModel(
-               eventName.getText().toString(),
-               "fff"
-               );
+       event = new EventModel();
+       event.setEventName(eventName.getText().toString());
        event.setEventAdress(eventAdress.getText().toString());
        event.setEventInfo(eventInfo.getText().toString());
-        event.setEventDate(555);
-        event.setEventTime(555);
+        event.setEventTime(dateAndTime.getTimeInMillis());
+        event.setEventCreator(FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getDisplayName());
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Events")

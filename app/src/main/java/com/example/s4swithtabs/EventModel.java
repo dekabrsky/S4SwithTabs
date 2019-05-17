@@ -6,20 +6,18 @@ public class EventModel {
     private String eventName;
     private String eventCreator;
     private String eventAdress;
-    private long eventDate;
     private long eventTime;
     private String eventInfo;
 
-    public EventModel(String eventName, String eventCreator) {
-        this.eventCreator = eventCreator;
-        this.eventName= eventName;
-        this.eventAdress = eventAdress;
-        this.eventDate = eventDate;
-        this.eventTime = eventTime;
-        this.eventInfo = eventInfo;
-
-        // Initialize to current time
-       eventTime = new Date().getTime();
+    public EventModel() {
+//        this.eventCreator = eventCreator;
+//        this.eventName= eventName;
+//        this.eventAdress = eventAdress;
+//        this.eventTime = eventTime;
+//        this.eventInfo = eventInfo;
+//
+//        // Initialize to current time
+//       eventTime = new Date().getTime();
     }
 
     public String getEventName() {
@@ -44,14 +42,6 @@ public class EventModel {
 
     public void setEventTime(long eventTime) {
         this.eventTime = eventTime;
-    }
-
-    public long getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(long eventDate) {
-        this.eventDate = eventDate;
     }
 
     public String getEventInfo() {

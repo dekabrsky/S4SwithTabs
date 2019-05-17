@@ -27,11 +27,11 @@ public class ChatRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
 
         FloatingActionButton fab;
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText input = (EditText)findViewById(R.id.input);
+                EditText input = findViewById(R.id.input);
 
 
 
@@ -103,7 +103,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private void displayChatMessages()
     {
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+        ListView listOfMessages = findViewById(R.id.list_of_messages);
 
         FirebaseListAdapter<ChatMessage> adapter;
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
@@ -112,9 +112,9 @@ public class ChatRoomActivity extends AppCompatActivity {
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
                 if (model.getMessageText() != null){
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+                TextView messageText = v.findViewById(R.id.message_text);
+                TextView messageUser = v.findViewById(R.id.message_user);
+                TextView messageTime = v.findViewById(R.id.message_time);
 
                 // Set their text
 
