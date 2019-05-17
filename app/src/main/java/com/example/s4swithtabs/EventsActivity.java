@@ -187,4 +187,13 @@ public class EventsActivity extends AppCompatActivity {
         listOfEvents.setAdapter(adapter);
 
     }
+
+    public void ViewAllEvents(View v){
+        displayEvents();
+    }
+
+    public void ViewHotEvents(View v){
+        displayEvents(Calendar.getInstance().getTimeInMillis(),
+                Calendar.getInstance().getTimeInMillis() + 604800000);
+    }
 }
