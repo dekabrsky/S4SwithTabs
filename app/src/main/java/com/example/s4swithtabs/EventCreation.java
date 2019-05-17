@@ -2,6 +2,7 @@ package com.example.s4swithtabs;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -69,8 +70,15 @@ public class EventCreation extends AppCompatActivity {
                 .getReference()
                 .child("Events")
                 .push()
-                .setValue(event)
-                ;
+                .setValue(event);
+
+        Intent intent = new Intent(EventCreation.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void creationOut(View v){
+        Intent intent = new Intent(EventCreation.this, MainActivity.class);
+        startActivity(intent);
     }
 
     // установка начальных даты и времени

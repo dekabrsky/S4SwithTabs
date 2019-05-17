@@ -12,6 +12,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends TabActivity {
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,17 +33,16 @@ public class MainActivity extends TabActivity {
         } else {
             // User is already signed in. Therefore, display
             // a welcome Toast
-            Toast.makeText(this,
+            /*Toast.makeText(this,
                     "Welcome " + mAuth
                             .getCurrentUser()
                             .getDisplayName(),
                     Toast.LENGTH_LONG)
-                    .show();
+                    .show();*/
 
             // Load chat room contents
             displayChatMessages();
         }
-
         // получаем TabHost
         TabHost tabHost = getTabHost();
 

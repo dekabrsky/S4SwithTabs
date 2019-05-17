@@ -29,14 +29,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/calendarView"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="32dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/allEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="108dp"
         android:layout_toRightOf="@+id/calendarView"
         android:onClick="ViewAllEvents"
         android:text="Все"
@@ -48,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/allEventsButton"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="26dp"
         android:layout_toRightOf="@+id/calendarView"
         android:onClick="ViewHotEvents"
         android:text="Cкоро"
