@@ -74,6 +74,8 @@ public class EventCreation extends AppCompatActivity {
 
         Intent intent = new Intent(EventCreation.this, MainActivity.class);
         startActivity(intent);
+
+        finish();
     }
 
     public void creationOut(View v){

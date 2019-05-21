@@ -79,13 +79,13 @@ public class MainActivity extends TabActivity {
         if(requestCode == -1) {
             if(resultCode == RESULT_OK) {
                 Toast.makeText(this,
-                        "Successfully signed in. Welcome!",
+                        "Аутентификация прошла успешно. Добро пожаловать!",
                         Toast.LENGTH_LONG)
                         .show();
                 displayChatMessages();
             } else {
                 Toast.makeText(this,
-                        "We couldn't sign you in. Please try again later.",
+                        "Аутентификация закончилась неудачей. Пожалуйста, проверьте подключение или попробуйте позже.",
                         Toast.LENGTH_LONG)
                         .show();
 

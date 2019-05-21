@@ -23,8 +23,7 @@ import java.util.TimeZone;
 
 public class EventsActivity extends AppCompatActivity {
 
-    long selectedDate;
-
+    TextView testIteration = (TextView)findViewById(R.id.test_iteration);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +48,19 @@ public class EventsActivity extends AppCompatActivity {
                             .build(),
                     -1
             );
+            testIteration.setText("1");
         } else {
             // User is already signed in. Therefore, display
             // a welcome Toast
-            Toast.makeText(this,
+            if (testIteration.getText().toString().equals("1"))
+                Toast.makeText(this,
                     "Welcome " + FirebaseAuth.getInstance()
                             .getCurrentUser()
                             .getDisplayName(),
                     Toast.LENGTH_LONG)
                     .show();
 
-            // Load chat room contents
+            // Load events contents
             displayEvents();
         }
 
