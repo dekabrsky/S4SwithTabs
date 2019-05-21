@@ -72,15 +72,15 @@ public class EventCreation extends AppCompatActivity {
                 .push()
                 .setValue(event);
 
-        //Intent intent = new Intent(EventCreation.this, MainActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(EventCreation.this, MainActivity.class);
+        startActivity(intent);
+
         finish();
     }
 
     public void creationOut(View v){
-        //Intent intent = new Intent(EventCreation.this, MainActivity.class);
-        //startActivity(intent);
-        finish();
+        Intent intent = new Intent(EventCreation.this, MainActivity.class);
+        startActivity(intent);
     }
 
     // установка начальных даты и времени
