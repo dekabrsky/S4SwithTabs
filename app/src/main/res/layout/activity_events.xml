@@ -7,7 +7,7 @@
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
@@ -22,22 +22,23 @@
         android:tint="@android:color/white"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        app:fabSize="mini"
         />
 
     <ListView
         android:id="@+id/EventsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/calendarView"
-        android:layout_marginTop="32dp" />
+        android:layout_below="@+id/calendarView" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/allEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="108dp"
-        android:layout_toRightOf="@+id/calendarView"
+        android:layout_toLeftOf="@+id/fab"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
         android:onClick="ViewAllEvents"
         android:text="Все"
         app:fabSize="mini"
@@ -47,10 +48,10 @@
         android:id="@+id/hotEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/allEventsButton"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="26dp"
-        android:layout_toRightOf="@+id/calendarView"
+        android:layout_toLeftOf="@+id/allEventsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
         android:onClick="ViewHotEvents"
         android:text="Cкоро"
         app:fabSize="mini"

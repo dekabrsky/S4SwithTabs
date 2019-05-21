@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,22 +59,28 @@ public class EventCreation extends AppCompatActivity {
     }
 
     public void setEventData(View v){
-       event = new EventModel();
-       event.setEventName(eventName.getText().toString());
-       event.setEventAdress(eventAdress.getText().toString());
-       event.setEventInfo(eventInfo.getText().toString());
-        event.setEventTime(dateAndTime.getTimeInMillis());
-        event.setEventCreator(FirebaseAuth.getInstance()
-                .getCurrentUser()
-                .getDisplayName());
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child("Events")
-                .push()
-                .setValue(event);
+        if (eventName.getText().toString().equals("") ||
+                eventAdress.getText().toString().equals("") ||
+                eventInfo.getText().toString().equals(""))
+            Toast.makeText(this, "Все поля обязательны к заполнению", Toast.LENGTH_LONG).show();
+       else {
+            event = new EventModel();
+            event.setEventName(eventName.getText().toString());
+            event.setEventAdress(eventAdress.getText().toString());
+            event.setEventInfo(eventInfo.getText().toString());
+            event.setEventTime(dateAndTime.getTimeInMillis());
+            event.setEventCreator(FirebaseAuth.getInstance()
+                    .getCurrentUser()
+                    .getDisplayName());
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Events")
+                    .push()
+                    .setValue(event);
 
 
-        finish();
+            finish();
+        }
     }
 
     public void creationOut(View v){

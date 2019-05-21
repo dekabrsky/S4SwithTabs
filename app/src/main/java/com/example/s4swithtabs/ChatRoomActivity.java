@@ -34,10 +34,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                 EditText input = findViewById(R.id.input);
 
 
-
+                if (!input.getText().toString().isEmpty())
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance()
+                {FirebaseDatabase.getInstance()
                         .getReference()
                         .child("Messages")
                         .push()
@@ -45,7 +45,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                                 FirebaseAuth.getInstance()
                                         .getCurrentUser()
                                         .getDisplayName())
-                        );
+                        );}
 
                 // Clear the input
                 input.setText("");
@@ -107,7 +107,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         FirebaseListAdapter<ChatMessage> adapter;
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference().child("Messages")) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child("Messages").orderByChild("messageTime")) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
