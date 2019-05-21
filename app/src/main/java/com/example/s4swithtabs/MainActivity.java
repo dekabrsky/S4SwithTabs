@@ -19,30 +19,8 @@ public class MainActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance();
 
-        if(mAuth.getCurrentUser() == null) {
-            // Start sign in/sign up activity
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .build(),
-                    -1
-            );
-        } else {
-            // User is already signed in. Therefore, display
-            // a welcome Toast
-            /*Toast.makeText(this,
-                    "Welcome " + mAuth
-                            .getCurrentUser()
-                            .getDisplayName(),
-                    Toast.LENGTH_LONG)
-                    .show();*/
 
-            // Load chat room contents
-            displayChatMessages();
-        }
         // получаем TabHost
         TabHost tabHost = getTabHost();
 
@@ -67,32 +45,7 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabSpec);
     }
 
-    private void displayChatMessages() {
 
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == -1) {
-            if(resultCode == RESULT_OK) {
-                Toast.makeText(this,
-                        "Successfully signed in. Welcome!",
-                        Toast.LENGTH_LONG)
-                        .show();
-                displayChatMessages();
-            } else {
-                Toast.makeText(this,
-                        "We couldn't sign you in. Please try again later.",
-                        Toast.LENGTH_LONG)
-                        .show();
-
-                // Close the app
-                finish();
-            }
-        }
-
-    }
 }

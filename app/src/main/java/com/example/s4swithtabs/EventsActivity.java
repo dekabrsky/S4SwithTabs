@@ -23,13 +23,10 @@ import java.util.TimeZone;
 
 public class EventsActivity extends AppCompatActivity {
 
-    long selectedDate;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-
         FloatingActionButton fab;
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,21 +46,22 @@ public class EventsActivity extends AppCompatActivity {
                             .build(),
                     -1
             );
+
         } else {
             // User is already signed in. Therefore, display
             // a welcome Toast
-            Toast.makeText(this,
+                Toast.makeText(this,
                     "Welcome " + FirebaseAuth.getInstance()
                             .getCurrentUser()
                             .getDisplayName(),
                     Toast.LENGTH_LONG)
                     .show();
 
-            // Load chat room contents
+            // Load events contents
             displayEvents();
         }
 
-        CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+        CalendarView calendarView = findViewById(R.id.calendarView);
         final Calendar dateAndTime=Calendar.getInstance();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
