@@ -11,12 +11,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class EventCreation extends AppCompatActivity {
 
@@ -58,29 +64,47 @@ public class EventCreation extends AppCompatActivity {
     }
 
     public void setEventData(View v){
-       event = new EventModel();
-       event.setEventName(eventName.getText().toString());
-       event.setEventAdress(eventAdress.getText().toString());
-       event.setEventInfo(eventInfo.getText().toString());
-        event.setEventTime(dateAndTime.getTimeInMillis());
-        event.setEventCreator(FirebaseAuth.getInstance()
-                .getCurrentUser()
-                .getDisplayName());
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child("Events")
-                .push()
-                .setValue(event);
+        if (eventName.getText().toString().equals("") ||
+                eventAdress.getText().toString().equals("") ||
+                eventInfo.getText().toString().equals(""))
+            Toast.makeText(this, "Все поля обязательны к заполнению", Toast.LENGTH_LONG).show();
+       else {
+            event = new EventModel();
+            event.setEventName(eventName.getText().toString());
+            event.setEventAdress(eventAdress.getText().toString());
+            event.setEventInfo(eventInfo.getText().toString());
+            event.setEventTime(dateAndTime.getTimeInMillis());
+            event.setEventCreator(FirebaseAuth.getInstance()
+                    .getCurrentUser()
+                    .getDisplayName());
 
-        Intent intent = new Intent(EventCreation.this, MainActivity.class);
-        startActivity(intent);
 
-        finish();
+            String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Events")
+                    .push()
+                    .setValue(event);
+
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Chats")
+                    .child(event.getEventName())
+                    .child("Messages")
+                    .push()
+                    .setValue(new ChatMessage("Hello",
+                            FirebaseAuth.getInstance()
+                                    .getCurrentUser()
+                                    .getDisplayName()));
+
+
+            finish();
+        }
     }
 
     public void creationOut(View v){
-        Intent intent = new Intent(EventCreation.this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     // установка начальных даты и времени

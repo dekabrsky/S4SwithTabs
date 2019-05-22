@@ -1,6 +1,9 @@
 package com.example.s4swithtabs;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EventModel {
     private String eventName;
@@ -8,6 +11,10 @@ public class EventModel {
     private String eventAdress;
     private long eventTime;
     private String eventInfo;
+
+
+
+
 
     public EventModel() {
 //        this.eventCreator = eventCreator;

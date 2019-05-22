@@ -1,5 +1,6 @@
 package com.example.s4swithtabs;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.icu.util.DateInterval;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,13 +19,22 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
+
 
 public class EventsActivity extends AppCompatActivity {
 
-    TextView testIteration = (TextView)findViewById(R.id.test_iteration);
+    public TextView dName;
+    public TextView dAdress;
+    public TextView dInfo;
+    public TextView dCreator;
+    public TextView dTime;
+    public Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +59,11 @@ public class EventsActivity extends AppCompatActivity {
                             .build(),
                     -1
             );
-            testIteration.setText("1");
+
         } else {
             // User is already signed in. Therefore, display
             // a welcome Toast
-            if (testIteration.getText().toString().equals("1"))
+
                 Toast.makeText(this,
                     "Welcome " + FirebaseAuth.getInstance()
                             .getCurrentUser()
@@ -61,10 +72,10 @@ public class EventsActivity extends AppCompatActivity {
                     .show();
 
             // Load events contents
-            displayEvents();
+            displayUserEvents();
         }
 
-        CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+        CalendarView calendarView = findViewById(R.id.calendarView);
         final Calendar dateAndTime=Calendar.getInstance();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -81,7 +92,7 @@ public class EventsActivity extends AppCompatActivity {
                 String selectedDate = new StringBuilder().append(mMonth + 1)
                         .append("-").append(mDay).append("-").append(mYear)
                         .append(" ").toString();
-                Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
                 dateAndTime.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                 dateAndTime.set(Calendar.YEAR,year);
                 dateAndTime.set(Calendar.MONTH,month);
@@ -130,10 +141,10 @@ public class EventsActivity extends AppCompatActivity {
     }
     private void displayEvents() {
         ListView listOfEvents = findViewById(R.id.EventsList);
-
         FirebaseListAdapter<EventModel> adapter;
+        String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
-                R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events")) {
+                R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events")) { //WARNING//
             @Override
             protected void populateView(View v, EventModel model, int position) {
 
@@ -154,6 +165,49 @@ public class EventsActivity extends AppCompatActivity {
                 }
             }
         };
+
+
+
+        listOfEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
+                                    long id) {
+                TextView nameView = itemClicked.findViewById(R.id.eventName);
+                String name = nameView.getText().toString();
+
+                TextView adressView = itemClicked.findViewById(R.id.eventAdress);
+                String adress = adressView.getText().toString();
+
+                TextView infoView = itemClicked.findViewById(R.id.eventInfo);
+                String info = infoView.getText().toString();
+
+                TextView timeView = itemClicked.findViewById(R.id.eventTime);
+                String timeString = timeView.getText().toString();
+                Long time = Long.getLong(timeString);
+
+                TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
+                String creator = creatorView.getText().toString();
+
+                //Toast.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
+
+                dialog = new Dialog(EventsActivity.this);
+                //dialog.setTitle(name);
+                dialog.setContentView(R.layout.diaolog_event);
+                dName = dialog.findViewById(R.id.dName);
+                dName.setText(name);
+                dAdress = dialog.findViewById(R.id.dAdress);
+                dAdress.setText(adress);
+                dInfo = dialog.findViewById(R.id.dInfo);
+                dInfo.setText(info);
+                dCreator = dialog.findViewById(R.id.dCreator);
+                dCreator.setText(creator);
+                dTime = dialog.findViewById(R.id.dTime);
+                dTime.setText(timeString);
+                dialog.show();
+
+
+            }
+        });
 
         listOfEvents.setAdapter(adapter);
     }
@@ -188,6 +242,10 @@ public class EventsActivity extends AppCompatActivity {
         listOfEvents.setAdapter(adapter);
 
     }
+    public void ViewUserEvents(View v)
+    {
+        displayUserEvents();
+    }
 
     public void ViewAllEvents(View v){
         displayEvents();
@@ -197,4 +255,121 @@ public class EventsActivity extends AppCompatActivity {
         displayEvents(Calendar.getInstance().getTimeInMillis(),
                 Calendar.getInstance().getTimeInMillis() + 604800000);
     }
+
+    public void join(View v) throws InterruptedException {
+        //Toast.makeText(this, "asdf", Toast.LENGTH_LONG).show();
+
+        EventModel event = new EventModel();
+
+        String name = dName.getText().toString();
+        event.setEventName(name);
+
+        String adress = dAdress.getText().toString();
+        event.setEventAdress(adress);
+
+        String info = dInfo.getText().toString();
+        event.setEventInfo(info);
+
+        String timeString = dTime.getText().toString();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy (HH:mm)");
+        Date date = null;
+        try {
+            date = formatter.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long time = date.getTime();
+        event.setEventTime(time);
+
+        String creator = dCreator.getText().toString();
+        event.setEventCreator(creator);
+
+        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
+
+        dialog.dismiss();
+    }
+    private void displayUserEvents() {
+        ListView listOfEvents = findViewById(R.id.EventsList);
+        FirebaseListAdapter<EventModel> adapter;
+        String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        //Toast.makeText(this,user,Toast.LENGTH_LONG).show();
+        adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
+                R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
+            @Override
+            protected void populateView(View v, EventModel model, int position) {
+
+                if (model.getEventName() != null) {
+                    TextView eventName = v.findViewById(R.id.eventName);
+                    TextView eventCreator = v.findViewById(R.id.eventCreator);
+                    TextView eventAdress = v.findViewById(R.id.eventAdress);
+                    TextView eventTime = v.findViewById(R.id.eventTime);
+                    TextView eventInfo = v.findViewById(R.id.eventInfo);
+
+
+                    eventName.setText(model.getEventName());
+                    eventCreator.setText(model.getEventCreator());
+                    eventAdress.setText(model.getEventAdress());
+                    eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
+                            model.getEventTime()));
+                    eventInfo.setText(model.getEventInfo());
+                }
+            }
+        };
+
+
+
+        listOfEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
+                                    long id) {
+                TextView nameView = itemClicked.findViewById(R.id.eventName);
+                String name = nameView.getText().toString();
+
+                TextView adressView = itemClicked.findViewById(R.id.eventAdress);
+                String adress = adressView.getText().toString();
+
+                TextView infoView = itemClicked.findViewById(R.id.eventInfo);
+                String info = infoView.getText().toString();
+
+                TextView timeView = itemClicked.findViewById(R.id.eventTime);
+
+                String timeString = timeView.getText().toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy (HH:mm)");
+                Date date = null;
+                try {
+                    date = formatter.parse(timeString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long time = date.getTime();
+
+
+                TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
+                String creator = infoView.getText().toString();
+
+                //.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
+
+                dialog = new Dialog(EventsActivity.this);
+                //dialog.setTitle(name);
+                dialog.setContentView(R.layout.diaolog_event);
+                dName = dialog.findViewById(R.id.dName);
+                dName.setText(name);
+                dAdress = dialog.findViewById(R.id.dAdress);
+                dAdress.setText(adress);
+                dInfo = dialog.findViewById(R.id.dInfo);
+                dInfo.setText(info);
+                dCreator = dialog.findViewById(R.id.dCreator);
+                dCreator.setText(creator);
+                dTime = dialog.findViewById(R.id.dTime);
+                dTime.setText(timeString);
+                dialog.show();
+
+            }
+        });
+
+        listOfEvents.setAdapter(adapter);
+
+    }
+
 }

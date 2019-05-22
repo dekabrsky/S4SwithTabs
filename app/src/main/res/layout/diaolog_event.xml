@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:text="NAME NAME NAME"
+        android:layout_marginLeft="10dp"
+        android:shadowColor="#009688"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/dTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/dName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="time" />
+    <TextView
+        android:id="@+id/dAdress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dName"
+        android:text="adress"
+        android:textSize="17sp"
+        android:textStyle="normal|bold"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/dInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dAdress"
+        android:layout_marginTop="5dp"
+        android:text="@android:string/status_bar_notification_info_overflow"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/dCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="creator"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/dInfo"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"/>
+
+    <Button
+        android:id="@+id/JoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Присоединиться"
+        android:layout_below="@+id/dCreator"
+        android:onClick = "join"/>
+
+
+</RelativeLayout>
