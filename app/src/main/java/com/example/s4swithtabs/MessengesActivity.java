@@ -25,7 +25,6 @@ public class MessengesActivity extends AppCompatActivity {
         listOfChats = findViewById(R.id.ChatsList);
         FirebaseListAdapter<EventModel> adapter;
         String user= FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        //Toast.makeText(this,user,Toast.LENGTH_LONG).show();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
             @Override
