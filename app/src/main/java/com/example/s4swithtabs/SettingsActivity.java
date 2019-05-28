@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class SettingsActivity extends ListActivity{
 
-    final String[] settingsList = new String[]{"Выйти", "Изменить профиль","Test ChatRoom", "Уведомления"};
+    final String[] settingsList = new String[]{"Выйти", "Уведомления"};
 
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(settingsList));
@@ -42,15 +42,7 @@ public class SettingsActivity extends ListActivity{
             finish();
         }
         else if (position == 1)
-            Toast.makeText(getApplicationContext(),
-                    "ВЫ ВЫБРАЛИ " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-        else if (position == 2)
-        {
-            Intent intent = new Intent(SettingsActivity.this, ChatRoomActivity.class);
-            startActivity(intent);
-        }
-        else Toast.makeText(getApplicationContext(),
-                    "Вы урод и выбрали " + l.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Включить/выключить уведомления", Toast.LENGTH_LONG).show();
 
     }
 

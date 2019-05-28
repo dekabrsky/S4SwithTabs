@@ -5,50 +5,67 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ChatRoomActivity">
 
 
     <ListView
+        android:id="@+id/list_of_messages"
+        style="@style/Widget.AppCompat.Light.ListView.DropDown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:layout_above="@id/fab"
-        android:dividerHeight="16dp"
-        android:divider="@android:color/transparent"
-        android:id="@+id/list_of_messages"
-        android:layout_marginBottom="16dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="16dp"
         android:stackFromBottom="true"
-        android:transcriptMode="normal"/>
+        android:transcriptMode="normal" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/fab"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/load">
 
         <EditText
+            android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Введите сообщение"
-            android:id="@+id/input"
-            android:maxLines="1"
-            />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:clickable="true"
         android:src="@drawable/ic_send_black_24dp"
-        android:id="@+id/fab"
         android:tint="@android:color/white"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_toLeftOf="@id/fab"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:src="@drawable/ic_attach_file_black_24dp"
+        android:tint="@android:color/darker_gray"
+        app:backgroundTint="#FFFFFF"
+        app:elevation="0px"
         app:fabSize="mini"
-        android:layout_alignParentRight="true" />
+        app:pressedTranslationZ="0px"
+        app:rippleColor="#FFFFFF" />
 
 </RelativeLayout>
