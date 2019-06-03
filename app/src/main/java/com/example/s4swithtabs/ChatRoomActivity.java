@@ -1,26 +1,50 @@
 package com.example.s4swithtabs;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.bumptech.glide.Glide;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.UUID;
 
 
 public class ChatRoomActivity extends AppCompatActivity {
     public String name;
-
-
+    private Uri filePath;
+    FirebaseStorage firebaseStorage=FirebaseStorage.getInstance();
+    StorageReference storageReference=firebaseStorage.getReference();
+    private final int PICK_IMAGE_REQUEST = 71;
+    public String pathImg = "images/shedevr.jpg";
+    public Uri imgUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +72,13 @@ public class ChatRoomActivity extends AppCompatActivity {
                         .setValue(new ChatMessage(input.getText().toString(),
                                 FirebaseAuth.getInstance()
                                         .getCurrentUser()
-                                        .getDisplayName())
+                                        .getDisplayName(),
+                                pathImg)
                         );}
 
                 // Clear the input
                 input.setText("");
+                pathImg = "images/shedevr.jpg";
             }
         });
 
@@ -90,10 +116,16 @@ public class ChatRoomActivity extends AppCompatActivity {
                         "We couldn't sign you in. Please try again later.",
                         Toast.LENGTH_LONG)
                         .show();
-
                 // Close the app
                 finish();
             }
+
+        }
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            uploadImage();
         }
 
     }
@@ -115,18 +147,67 @@ public class ChatRoomActivity extends AppCompatActivity {
                 TextView messageText = v.findViewById(R.id.message_text);
                 TextView messageUser = v.findViewById(R.id.message_user);
                 TextView messageTime = v.findViewById(R.id.message_time);
-
+                TextView messageImage = v.findViewById(R.id.message_image);
+                ImageView imageView = v.findViewById(R.id.imageView);
                 // Set their text
 
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
-
+                messageImage.setText(model.getPathToImage());
                 // Format the date before showing it
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));}
+                        model.getMessageTime()));
+                }
             }
         };
 
         listOfMessages.setAdapter(adapter);
+    }
+
+    public void attachImages(View view){
+        chooseImage();
+
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    private void uploadImage() {
+        StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ChatRoomActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ChatRoomActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+         pathImg = ref.getPath();
+        }
+
     }
 }

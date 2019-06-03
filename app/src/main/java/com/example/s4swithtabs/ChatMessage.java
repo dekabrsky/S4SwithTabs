@@ -6,11 +6,19 @@ public class ChatMessage {
     private String messageText;
     private String messageUser;
     private long messageTime;
+    private String pathToImage;
 
+    public ChatMessage(String messageText, String messageUser, String pathToImage) {
+        this.messageText = messageText;
+        this.messageUser = messageUser;
+        this.pathToImage=pathToImage;
+        // Initialize to current time
+        messageTime = new Date().getTime();
+    }
     public ChatMessage(String messageText, String messageUser) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-
+        this.pathToImage="sdjkfgwfhwehfwejkjldjksfjsk";
         // Initialize to current time
         messageTime = new Date().getTime();
     }
@@ -41,5 +49,13 @@ public class ChatMessage {
 
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
+    }
+
+    public String getPathToImage() {
+        return pathToImage;
+    }
+
+    public void setPathToImage(String pathToImage) {
+        this.pathToImage = pathToImage;
     }
 }

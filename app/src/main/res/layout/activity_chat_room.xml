@@ -66,6 +66,7 @@
         app:elevation="0px"
         app:fabSize="mini"
         app:pressedTranslationZ="0px"
-        app:rippleColor="#FFFFFF" />
+        app:rippleColor="#FFFFFF"
+        android:onClick="attachImages"/>
 
 </RelativeLayout>
