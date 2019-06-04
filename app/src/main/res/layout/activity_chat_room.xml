@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Введите сообщение"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:inputType="textCapSentences"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton

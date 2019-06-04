@@ -1,5 +1,6 @@
 package com.example.s4swithtabs;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,8 +41,8 @@ import java.util.UUID;
 public class ChatRoomActivity extends AppCompatActivity {
     public String name;
     private Uri filePath;
-    FirebaseStorage firebaseStorage=FirebaseStorage.getInstance();
-    StorageReference storageReference=firebaseStorage.getReference();
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference();
     private final int PICK_IMAGE_REQUEST = 71;
     public String pathImg = "images/shedevr.jpg";
     public Uri imgUri;
@@ -63,18 +64,20 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (!input.getText().toString().isEmpty())
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
-                {FirebaseDatabase.getInstance()
-                        .getReference()
-                        .child("Chats")
-                        .child(name)
-                        .child("Messages")
-                        .push()
-                        .setValue(new ChatMessage(input.getText().toString(),
-                                FirebaseAuth.getInstance()
-                                        .getCurrentUser()
-                                        .getDisplayName(),
-                                pathImg)
-                        );}
+                {
+                    FirebaseDatabase.getInstance()
+                            .getReference()
+                            .child("Chats")
+                            .child(name)
+                            .child("Messages")
+                            .push()
+                            .setValue(new ChatMessage(input.getText().toString(),
+                                    FirebaseAuth.getInstance()
+                                            .getCurrentUser()
+                                            .getDisplayName(),
+                                    pathImg)
+                            );
+                }
 
                 // Clear the input
                 input.setText("");
@@ -82,7 +85,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             // Start sign in/sign up activity
             startActivityForResult(
                     AuthUI.getInstance()
@@ -104,8 +107,8 @@ public class ChatRoomActivity extends AppCompatActivity {
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == -1) {
-            if(resultCode == RESULT_OK) {
+        if (requestCode == -1) {
+            if (resultCode == RESULT_OK) {
                 Toast.makeText(this,
                         "Successfully signed in. Welcome!",
                         Toast.LENGTH_LONG)
@@ -121,42 +124,45 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
 
         }
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null )
-        {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             filePath = data.getData();
             uploadImage();
         }
 
     }
 
-    private void displayChatMessages()
-    {
+    private void displayChatMessages() {
         ListView listOfMessages = findViewById(R.id.list_of_messages);
 
-        FirebaseListAdapter<ChatMessage> adapter;
-        adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
+        FirebaseListAdapter<ChatMessage> adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference().child("Chats")
                 .child(name)
                 .child("Messages").
                         orderByChild("messageTime")) {
+            @SuppressLint("ResourceAsColor")
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
-                if (model.getMessageText() != null){
-                TextView messageText = v.findViewById(R.id.message_text);
-                TextView messageUser = v.findViewById(R.id.message_user);
-                TextView messageTime = v.findViewById(R.id.message_time);
-                TextView messageImage = v.findViewById(R.id.message_image);
-                ImageView imageView = v.findViewById(R.id.imageView);
-                // Set their text
+                if (model.getMessageText() != null) {
+                    TextView messageText = v.findViewById(R.id.message_text);
+                    TextView messageUser = v.findViewById(R.id.message_user);
+                    TextView messageTime = v.findViewById(R.id.message_time);
+                    TextView messageImage = v.findViewById(R.id.message_image);
+                    ImageView imageView = v.findViewById(R.id.imageView);
+                    // Set their text
 
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
-                messageImage.setText(model.getPathToImage());
-                // Format the date before showing it
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
+                    messageText.setText(model.getMessageText());
+                    messageUser.setText(model.getMessageUser());
+                    //messageImage.setText(model.getPathToImage());
+                    // Format the date before showing it
+                    messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                            model.getMessageTime()));
+
+                    if (FirebaseAuth.getInstance().getCurrentUser().getDisplayName().equals(model.getMessageUser())) {
+                        messageUser.setText("Я");
+                        messageUser.setTextColor(-600000);
+                    }
                 }
             }
         };
@@ -164,7 +170,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         listOfMessages.setAdapter(adapter);
     }
 
-    public void attachImages(View view){
+    public void attachImages(View view) {
         chooseImage();
 
     }
@@ -177,9 +183,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
-        StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-        if(filePath != null)
-        {
+        StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
+        if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
@@ -195,18 +200,18 @@ public class ChatRoomActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(ChatRoomActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatRoomActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                     .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
-         pathImg = ref.getPath();
+            pathImg = ref.getPath();
         }
 
     }

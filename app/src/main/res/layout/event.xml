@@ -76,10 +76,20 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/eventInfo"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:text="Создатель"
                 android:textStyle="normal" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageCreator"
+                android:src="@drawable/ic_person_black_24dp"
+                android:layout_toLeftOf="@+id/eventCreator"
+                android:layout_below="@+id/eventInfo"
+                android:layout_marginTop="4dp"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

@@ -395,7 +395,7 @@ public class EventsActivity extends AppCompatActivity {
 
 
                 TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
-                String creator = infoView.getText().toString();
+                String creator = creatorView.getText().toString();
 
                 //.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
 
