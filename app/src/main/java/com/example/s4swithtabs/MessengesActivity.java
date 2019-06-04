@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MessengesActivity extends AppCompatActivity {
@@ -23,8 +24,9 @@ public class MessengesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messenges);
 
         listOfChats = findViewById(R.id.ChatsList);
-        FirebaseListAdapter<EventModel> adapter;
         String user= FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        /*FirebaseListAdapter<EventModel> adapter;
+
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
             @Override
@@ -47,13 +49,23 @@ public class MessengesActivity extends AppCompatActivity {
                 }
             }
         };
-        listOfChats.setAdapter(adapter);
+        listOfChats.setAdapter(adapter);*/
+
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child(user);
+        FirebaseListAdapter<EventModel> visitorsAdapter= new FirebaseListAdapter<EventModel>(this, EventModel.class, R.layout.chatlist_item, reference) {
+            @Override
+            protected void populateView(View v, EventModel model, int position) {
+                TextView ctv= v.findViewById(R.id.ctv);
+                ctv.setText(model.getEventName());
+            }
+        };
+        listOfChats.setAdapter(visitorsAdapter);
 
         listOfChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
-                nameView = itemClicked.findViewById(R.id.eventName);
+                nameView = itemClicked.findViewById(R.id.ctv);
                 ChatRoomActivity chat;
                 String name = nameView.getText().toString();
                 Intent intent=new Intent(MessengesActivity.this,ChatRoomActivity.class);

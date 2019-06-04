@@ -38,6 +38,7 @@ public class EventsActivity extends AppCompatActivity {
     public TextView dTime;
     public Dialog dialog;
     public Dialog dialog2;
+    public Dialog dialogAfterJoining;
     public boolean flag;
     public  ArrayList<String> listForChecking;
     TextView currentList;
@@ -306,7 +307,13 @@ public class EventsActivity extends AppCompatActivity {
 
             FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(user);
 
+            Toast.makeText(this, user + " , Вы стали участником события " + name +"!", Toast.LENGTH_LONG).show();
+
             displayUserEvents();
+
+            dialogAfterJoining = new Dialog(this);
+            dialogAfterJoining.setContentView(R.layout.dialog_after_joining);
+            dialogAfterJoining.show();
         }
 
         dialog.dismiss();
@@ -314,8 +321,6 @@ public class EventsActivity extends AppCompatActivity {
 
     public void visitors(View v)
     {
-        Toast.makeText(this,
-                FirebaseDatabase.getInstance().getReference().child("Extensions").child("1").child("EventAdress").toString(), Toast.LENGTH_LONG).show();
         dialog2 = new Dialog(EventsActivity.this);
         dialog2.setTitle("Список участников");
         dialog2.setContentView(R.layout.visitors_dialog);
@@ -416,4 +421,20 @@ public class EventsActivity extends AppCompatActivity {
 
     }
 
+    public void goToChat(View v)
+    {
+        String name = dName.getText().toString();
+        Intent intent=new Intent(EventsActivity.this,ChatRoomActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", name);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        dialogAfterJoining.dismiss();
+    }
+
+    public void goToMyEvents(View v)
+    {
+        displayUserEvents();
+        dialogAfterJoining.dismiss();
+    }
 }

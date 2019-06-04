@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorReallyPrimaryLight"
     tools:context=".ChatRoomActivity">
 
 
@@ -62,7 +62,7 @@
         android:clickable="true"
         android:src="@drawable/ic_attach_file_black_24dp"
         android:tint="@android:color/darker_gray"
-        app:backgroundTint="#FFFFFF"
+        app:backgroundTint="@color/colorReallyPrimaryLight"
         app:elevation="0px"
         app:fabSize="mini"
         app:pressedTranslationZ="0px"
