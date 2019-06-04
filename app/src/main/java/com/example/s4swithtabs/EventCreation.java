@@ -46,6 +46,7 @@ public class EventCreation extends AppCompatActivity {
         eventInfo = findViewById(R.id.editText3);
         setInitialDateTime();
     }
+
     // отображаем диалоговое окно для выбора даты
     public void setDate(View v) {
         new DatePickerDialog(EventCreation.this, d,
@@ -78,14 +79,27 @@ public class EventCreation extends AppCompatActivity {
                     .getCurrentUser()
                     .getDisplayName());
 
-
             String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            event.eventVisitors.add(user);
+
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("Events")
                     .push()
                     .setValue(event);
+
+            //новый способ
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Extensions")
+                    .child(event.getEventName());
+            SendStringsToFirebase("EventName", event.getEventName());
+            SendStringsToFirebase("EventAdress", event.getEventAdress());
+            SendStringsToFirebase("EventInfo", event.getEventInfo());
+            SendLongToFirebase("EventTime", event.getEventTime());
+            SendStringsToFirebase("EventVisitors", user);
+            // конец нового спосособа
 
             FirebaseDatabase.getInstance()
                     .getReference()
@@ -103,6 +117,38 @@ public class EventCreation extends AppCompatActivity {
         }
     }
 
+    public void SendStringsToFirebase(String target, String value)
+    {
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Extensions")
+                .child(event.getEventName())
+                .child(target)
+                .push()
+                .setValue(value);
+    }
+
+    public void SendLongToFirebase(String target, long value)
+    {
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Extensions")
+                .child(event.getEventName())
+                .child(target)
+                .push()
+                .setValue(value);
+    }
+
+    public void SendListToFirebase(String target, ArrayList<String> value)
+    {
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Extensions")
+                .child(event.getEventName())
+                .child(target)
+                .push()
+                .setValue(value);
+    }
     public void creationOut(View v){
         finish();
     }

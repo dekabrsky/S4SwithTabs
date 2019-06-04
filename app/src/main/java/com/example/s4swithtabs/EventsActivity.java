@@ -17,6 +17,7 @@ import android.widget.CalendarView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
@@ -34,6 +35,8 @@ public class EventsActivity extends AppCompatActivity {
     public TextView dCreator;
     public TextView dTime;
     public Dialog dialog;
+    public Dialog dialog2;
+    public boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,8 +216,8 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void displayEvents(long time, long nextday) {
+        flag = true;
         ListView listOfEvents = findViewById(R.id.EventsList);
-
         FirebaseListAdapter<EventModel> adapter;
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events").orderByChild("eventTime").startAt(time).endAt(nextday)) {
@@ -244,51 +247,68 @@ public class EventsActivity extends AppCompatActivity {
     }
     public void ViewUserEvents(View v)
     {
+        flag = false;
         displayUserEvents();
     }
 
-    public void ViewAllEvents(View v){
+    public void ViewAllEvents(View v)
+    {
+        flag = true;
         displayEvents();
     }
 
     public void ViewHotEvents(View v){
+        flag = true;
         displayEvents(Calendar.getInstance().getTimeInMillis(),
                 Calendar.getInstance().getTimeInMillis() + 604800000);
     }
 
     public void join(View v) throws InterruptedException {
-        //Toast.makeText(this, "asdf", Toast.LENGTH_LONG).show();
-
-        EventModel event = new EventModel();
-
-        String name = dName.getText().toString();
-        event.setEventName(name);
-
-        String adress = dAdress.getText().toString();
-        event.setEventAdress(adress);
-
-        String info = dInfo.getText().toString();
-        event.setEventInfo(info);
-
-        String timeString = dTime.getText().toString();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy (HH:mm)");
-        Date date = null;
-        try {
-            date = formatter.parse(timeString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (!flag)
+        {
+            Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
         }
-        long time = date.getTime();
-        event.setEventTime(time);
+        else {
+            EventModel event = new EventModel();
 
-        String creator = dCreator.getText().toString();
-        event.setEventCreator(creator);
+            String name = dName.getText().toString();
+            event.setEventName(name);
 
-        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
+            String adress = dAdress.getText().toString();
+            event.setEventAdress(adress);
+
+            String info = dInfo.getText().toString();
+            event.setEventInfo(info);
+
+            String timeString = dTime.getText().toString();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy (HH:mm)");
+            Date date = null;
+            try {
+                date = formatter.parse(timeString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long time = date.getTime();
+            event.setEventTime(time);
+
+            String creator = dCreator.getText().toString();
+            event.setEventCreator(creator);
+
+            String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
+
+            FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(user);
+        }
 
         dialog.dismiss();
     }
+
+    public void visitors(View v)
+    {
+        Toast.makeText(this,
+                FirebaseDatabase.getInstance().getReference().child("Extensions").child("1").child("EventAdress").toString(), Toast.LENGTH_LONG).show();
+    }
+
     private void displayUserEvents() {
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
