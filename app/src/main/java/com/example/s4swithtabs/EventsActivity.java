@@ -19,8 +19,10 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +39,7 @@ public class EventsActivity extends AppCompatActivity {
     public Dialog dialog;
     public Dialog dialog2;
     public boolean flag;
+    public  ArrayList<String> listForChecking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,6 +301,8 @@ public class EventsActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
 
             FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(user);
+
+            displayUserEvents();
         }
 
         dialog.dismiss();
@@ -307,6 +312,20 @@ public class EventsActivity extends AppCompatActivity {
     {
         Toast.makeText(this,
                 FirebaseDatabase.getInstance().getReference().child("Extensions").child("1").child("EventAdress").toString(), Toast.LENGTH_LONG).show();
+        dialog2 = new Dialog(EventsActivity.this);
+        dialog2.setTitle("Список участников");
+        dialog2.setContentView(R.layout.visitors_dialog);
+        ListView listView=dialog2.findViewById(R.id.listview);
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Extensions").child(dName.getText().toString()).child("EventVisitors");
+        FirebaseListAdapter<String> visitorsAdapter= new FirebaseListAdapter<String>(this,String.class,R.layout.list_item,reference) {
+            @Override
+            protected void populateView(View v, String model, int position) {
+                TextView tv= v.findViewById(R.id.tv);
+                tv.setText(model);
+            }
+        };
+        listView.setAdapter(visitorsAdapter);
+        dialog2.show();
     }
 
     private void displayUserEvents() {

@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/tv"
-        android:textColor="#fff"
-        android:paddingLeft="15dp"
-        android:gravity="center_vertical"
         android:background="@color/colorAccent"
-        android:textSize="20sp"
-        android:text="hwllo"/>
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="hello"
+        android:textColor="#fff"
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
