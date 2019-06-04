@@ -9,16 +9,15 @@
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorAccent"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="hello"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#000"/>
+        android:background="#fff"/>
 
 </LinearLayout>

@@ -40,12 +40,14 @@ public class EventsActivity extends AppCompatActivity {
     public Dialog dialog2;
     public boolean flag;
     public  ArrayList<String> listForChecking;
+    TextView currentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
+        currentList = findViewById(R.id.current_list);
         FloatingActionButton fab;
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +148,7 @@ public class EventsActivity extends AppCompatActivity {
 
     }
     private void displayEvents() {
+        currentList.setText("Все мероприятия, к которым Вы можете присоединиться");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
         String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
@@ -220,6 +223,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void displayEvents(long time, long nextday) {
         flag = true;
+        currentList.setText("Ближайшие мероприятия");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
@@ -329,6 +333,7 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void displayUserEvents() {
+        currentList.setText("Мероприятия, в которых вы участвуете");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
         String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();

@@ -29,7 +29,7 @@
         android:id="@+id/EventsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/calendarView" />
+        android:layout_below="@+id/current_list" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/allEventsButton"
@@ -69,5 +69,15 @@
         android:text="Cкоро"
         app:fabSize="mini"
         android:src="@drawable/ic_account_circle_black_24dp"/>
+
+    <TextView
+        android:id="@+id/current_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendarView"
+        android:layout_marginLeft="15dp"
+        android:text="Выберите список:"
+        android:textStyle="italic"
+        />
 
 </RelativeLayout>

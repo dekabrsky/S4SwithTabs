@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/mainBack">
 
     <TextView
         android:id="@+id/eventName"
@@ -9,13 +10,15 @@
         android:layout_height="wrap_content"
         android:textStyle="normal|bold"
         android:textSize="18sp"
-        android:text="NAME NAME NAME"
+        android:text="Название"
         android:layout_marginLeft="10dp"
         android:shadowColor="#009688"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="1"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/eventTime"
+        android:layout_alignParentLeft="true"/>
     <TextView
         android:id="@+id/eventTime"
         android:layout_width="wrap_content"
@@ -25,31 +28,34 @@
         android:layout_alignBottom="@+id/eventName"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="time" />
+        android:text="Время"
+        android:textStyle="italic"/>
     <TextView
         android:id="@+id/eventAdress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventName"
-        android:text="adress"
+        android:text="Адрес"
         android:textSize="17sp"
-        android:textStyle="normal|bold"
-        android:layout_marginLeft="10dp"/>
+        android:textStyle="normal"
+        android:layout_marginLeft="15dp"/>
     <TextView
         android:id="@+id/eventInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventAdress"
         android:layout_marginTop="5dp"
-        android:text="@android:string/status_bar_notification_info_overflow"
+        android:text="Инфо"
         android:textSize="16sp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:textStyle="italic"/>
     <TextView
         android:id="@+id/eventCreator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="creator"
-        android:textStyle="normal|bold"
+        android:text="Создатель"
+        android:textStyle="normal"
         android:layout_below="@+id/eventInfo"
         android:layout_marginLeft="10dp"
         android:layout_alignParentRight="true"
