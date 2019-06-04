@@ -29,7 +29,9 @@
         android:id="@+id/EventsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/current_list" />
+        android:layout_below="@+id/current_list"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/allEventsButton"

@@ -8,5 +8,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ChatsList"/>
+        android:id="@+id/ChatsList"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"/>
 </LinearLayout>
