@@ -168,7 +168,7 @@ public class EventsActivity extends AppCompatActivity {
                     eventName.setText(model.getEventName());
                     eventCreator.setText(model.getEventCreator());
                     eventAdress.setText(model.getEventAdress());
-                    if (model.getEventTime() < Calendar.getInstance().getTimeInMillis()) {
+                    if (model.getEventTime() + 3600000 < Calendar.getInstance().getTimeInMillis()) {
                         eventTime.setText("Завершено");
                         eventTime.setTextColor(Color.RED);
                     } else {
