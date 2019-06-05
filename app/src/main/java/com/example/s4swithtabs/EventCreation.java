@@ -112,6 +112,12 @@ public class EventCreation extends AppCompatActivity {
             SendStringsToFirebase("EventVisitors", user);
             // конец нового спосособа
 
+            FirebaseDatabase.getInstance().getReference()
+                    .child("Extensions")
+                    .child(user)
+                    .push()
+                    .setValue(event.getEventName());
+
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("Chats")

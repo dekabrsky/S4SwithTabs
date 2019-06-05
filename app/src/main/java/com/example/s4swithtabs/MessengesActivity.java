@@ -1,5 +1,6 @@
 package com.example.s4swithtabs;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MessengesActivity extends AppCompatActivity {
     ListView listOfChats;
     TextView nameView;
+    String user;
+    String name;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +28,7 @@ public class MessengesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messenges);
 
         listOfChats = findViewById(R.id.ChatsList);
-        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         /*FirebaseListAdapter<EventModel> adapter;
 
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
@@ -50,12 +55,12 @@ public class MessengesActivity extends AppCompatActivity {
         };
         listOfChats.setAdapter(adapter);*/
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(user);
-        FirebaseListAdapter<EventModel> visitorsAdapter = new FirebaseListAdapter<EventModel>(this, EventModel.class, R.layout.chatlist_item, reference) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(user);
+        FirebaseListAdapter<String> visitorsAdapter = new FirebaseListAdapter<String>(this, String.class, R.layout.chatlist_item, reference) {
             @Override
-            protected void populateView(View v, EventModel model, int position) {
+            protected void populateView(View v, String model, int position) {
                 TextView ctv = v.findViewById(R.id.ctv);
-                ctv.setText(model.getEventName());
+                ctv.setText(model);
             }
         };
         listOfChats.setAdapter(visitorsAdapter);
@@ -66,7 +71,7 @@ public class MessengesActivity extends AppCompatActivity {
                                     long id) {
                 nameView = itemClicked.findViewById(R.id.ctv);
                 ChatRoomActivity chat;
-                String name = nameView.getText().toString();
+                name = nameView.getText().toString();
                 Intent intent = new Intent(MessengesActivity.this, ChatRoomActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("name", name);
@@ -76,5 +81,35 @@ public class MessengesActivity extends AppCompatActivity {
             }
         });
 
+        listOfChats.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MessengesActivity.this, "lll", Toast.LENGTH_LONG).show();
+                dialog = new Dialog(MessengesActivity.this);
+                dialog.setContentView(R.layout.dialog_chat);
+                dialog.show();
+                return true;
+            }
+        });
+    }
+
+    public void DeleteChat(View v) {
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Chats")
+                .child(name)
+                .child("Messages")
+                .push()
+                .setValue(new ChatMessage(user + " покинул чат.",
+                        "Администрация",
+                        "no"
+                ));
+        FirebaseDatabase.getInstance().getReference().child("Extensions").child(user).removeValue();
+        dialog.dismiss();
+        Toast.makeText(MessengesActivity.this, "Вы покинули чат. Мы уведомили ваших собеседников об этом.", Toast.LENGTH_LONG).show();
+    }
+
+    private void NoDeleteChat(View v) {
+        dialog.dismiss();
     }
 }
