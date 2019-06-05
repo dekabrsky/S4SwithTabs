@@ -8,6 +8,15 @@
     android:background="@drawable/oboi3"
     tools:context=".ChatRoomActivity">
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Название мероприятия"
+        android:layout_margin="15dp"
+        android:id="@+id/chatName"
+        android:textSize="18dp"
+        android:textColor="@android:color/white"
+        />
 
     <ListView
         android:id="@+id/list_of_messages"
@@ -17,8 +26,8 @@
         android:layout_above="@id/fab"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:layout_marginBottom="16dp"
+        android:layout_below="@+id/chatName"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp"
         android:stackFromBottom="true"
@@ -63,11 +72,29 @@
         android:clickable="true"
         android:onClick="attachImages"
         android:src="@drawable/ic_attach_file_black_24dp"
-        android:tint="@android:color/darker_gray"
+        android:tint="@android:color/primary_text_dark_nodisable"
         app:backgroundTint="@color/colorReallyPrimaryLight"
         app:elevation="0px"
         app:fabSize="mini"
         app:pressedTranslationZ="0px"
         app:rippleColor="#FFFFFF" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/visitors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:layout_alignParentRight="true"
+        android:onClick="visitors2"
+        android:src="@drawable/ic_supervisor_account_black_24dp"
+        android:tint="@android:color/primary_text_dark_nodisable"
+        app:backgroundTint="@color/colorReallyPrimaryLight"
+        app:elevation="0px"
+        app:fabSize="mini"
+        app:pressedTranslationZ="0px"
+        app:rippleColor="#FFFFFF"
+        />
 
 </RelativeLayout>

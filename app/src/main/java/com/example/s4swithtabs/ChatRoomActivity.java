@@ -1,10 +1,13 @@
 package com.example.s4swithtabs;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -24,7 +27,9 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +58,8 @@ public class ChatRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
+        TextView chatName = findViewById(R.id.chatName);
+        chatName.setText(name);
         FloatingActionButton fab;
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +168,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                     if (FirebaseAuth.getInstance().getCurrentUser().getDisplayName().equals(model.getMessageUser())) {
                         messageUser.setText("Я");
-                        messageUser.setTextColor(-600000);
+                        messageUser.setTextColor(Color.CYAN);
                     }
                 }
             }
@@ -214,5 +221,23 @@ public class ChatRoomActivity extends AppCompatActivity {
             pathImg = ref.getPath();
         }
 
+    }
+
+    public void visitors2(View v)
+    {
+        Dialog dialog2 = new Dialog(ChatRoomActivity.this);
+        dialog2.setTitle("Список участников");
+        dialog2.setContentView(R.layout.visitors_dialog);
+        ListView listView=dialog2.findViewById(R.id.listview);
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors");
+        FirebaseListAdapter<String> visitorsAdapter= new FirebaseListAdapter<String>(this,String.class,R.layout.list_item,reference) {
+            @Override
+            protected void populateView(View v, String model, int position) {
+                TextView tv= v.findViewById(R.id.tv);
+                tv.setText(model);
+            }
+        };
+        listView.setAdapter(visitorsAdapter);
+        dialog2.show();
     }
 }

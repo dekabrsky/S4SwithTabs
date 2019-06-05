@@ -2,6 +2,8 @@ package com.example.s4swithtabs;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.icu.util.DateInterval;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -169,8 +171,17 @@ public class EventsActivity extends AppCompatActivity {
                     eventName.setText(model.getEventName());
                     eventCreator.setText(model.getEventCreator());
                     eventAdress.setText(model.getEventAdress());
-                    eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
-                            model.getEventTime()));
+                    if (model.getEventTime() < Calendar.getInstance().getTimeInMillis())
+                    {
+                        eventTime.setText("Завершено");
+                        eventTime.setTextColor(Color.RED);
+                    }
+                    else
+                    {
+                        eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
+                                model.getEventTime()));
+                        eventTime.setTextColor(Color.GRAY);
+                    }
                     eventInfo.setText(model.getEventInfo());
                 }
             }
@@ -275,6 +286,10 @@ public class EventsActivity extends AppCompatActivity {
         if (!flag)
         {
             Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
+        }
+        else if (dTime.getText().toString().equals("Завершено"))
+        {
+            Toast.makeText(this, "Событие уже закончилось", Toast.LENGTH_LONG).show();
         }
         else {
             EventModel event = new EventModel();
