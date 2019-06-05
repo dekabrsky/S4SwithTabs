@@ -317,6 +317,12 @@ public class EventsActivity extends AppCompatActivity {
             dialogAfterJoining = new Dialog(this);
             dialogAfterJoining.setContentView(R.layout.dialog_after_joining);
             dialogAfterJoining.show();
+
+            FirebaseDatabase.getInstance().getReference()
+                    .child("Extensions")
+                    .child(user)
+                    .push()
+                    .setValue(dName);
         }
 
         dialog.dismiss();
