@@ -322,7 +322,7 @@ public class EventsActivity extends AppCompatActivity {
                     .child("Extensions")
                     .child(user)
                     .push()
-                    .setValue(dName);
+                    .setValue(name);
         }
 
         dialog.dismiss();
