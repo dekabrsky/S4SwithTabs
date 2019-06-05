@@ -11,19 +11,20 @@ public class ChatMessage {
     public ChatMessage(String messageText, String messageUser, String pathToImage) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-        this.pathToImage=pathToImage;
-        // Initialize to current time
-        messageTime = new Date().getTime();
-    }
-    public ChatMessage(String messageText, String messageUser) {
-        this.messageText = messageText;
-        this.messageUser = messageUser;
-        this.pathToImage="sdjkfgwfhwehfwejkjldjksfjsk";
+        this.pathToImage = pathToImage;
         // Initialize to current time
         messageTime = new Date().getTime();
     }
 
-    public ChatMessage(){
+    public ChatMessage(String messageText, String messageUser) {
+        this.messageText = messageText;
+        this.messageUser = messageUser;
+        this.pathToImage = "sdjkfgwfhwehfwejkjldjksfjsk";
+        // Initialize to current time
+        messageTime = new Date().getTime();
+    }
+
+    public ChatMessage() {
 
     }
 

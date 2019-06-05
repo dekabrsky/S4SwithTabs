@@ -1,7 +1,6 @@
 package com.example.s4swithtabs;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class SettingsActivity extends ListActivity{
+public class SettingsActivity extends ListActivity {
 
     final String[] settingsList = new String[]{"Выйти", "Уведомления"};
 
@@ -36,12 +35,10 @@ public class SettingsActivity extends ListActivity{
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        if (position == 0)
-        {
+        if (position == 0) {
             AuthUI.getInstance().signOut(this);
             finish();
-        }
-        else if (position == 1)
+        } else if (position == 1)
             Toast.makeText(this, "Включить/выключить уведомления", Toast.LENGTH_LONG).show();
 
     }

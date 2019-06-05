@@ -2,31 +2,28 @@ package com.example.s4swithtabs;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.icu.util.DateInterval;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CalendarView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -42,7 +39,7 @@ public class EventsActivity extends AppCompatActivity {
     public Dialog dialog2;
     public Dialog dialogAfterJoining;
     public boolean flag;
-    public  ArrayList<String> listForChecking;
+    public ArrayList<String> listForChecking;
     TextView currentList;
 
     @Override
@@ -75,7 +72,7 @@ public class EventsActivity extends AppCompatActivity {
             // User is already signed in. Therefore, display
             // a welcome Toast
 
-                Toast.makeText(this,
+            Toast.makeText(this,
                     "Welcome " + FirebaseAuth.getInstance()
                             .getCurrentUser()
                             .getDisplayName(),
@@ -87,7 +84,7 @@ public class EventsActivity extends AppCompatActivity {
         }
 
         CalendarView calendarView = findViewById(R.id.calendarView);
-        final Calendar dateAndTime=Calendar.getInstance();
+        final Calendar dateAndTime = Calendar.getInstance();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -97,30 +94,29 @@ public class EventsActivity extends AppCompatActivity {
                 int mYear = year;
                 int mMonth = month;
                 int mDay = dayOfMonth;
-                long longYear=year;
+                long longYear = year;
                 TimeZone timeZone = dateAndTime.getTimeZone();
                 int offset = timeZone.getRawOffset();
                 String selectedDate = new StringBuilder().append(mMonth + 1)
                         .append("-").append(mDay).append("-").append(mYear)
                         .append(" ").toString();
                 //Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
-                dateAndTime.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                dateAndTime.set(Calendar.YEAR,year);
-                dateAndTime.set(Calendar.MONTH,month);
-                dateAndTime.set(Calendar.HOUR_OF_DAY,0);
-                dateAndTime.set(Calendar.MINUTE,0);
-                dateAndTime.set(Calendar.SECOND,0);
-                long time=dateAndTime.getTimeInMillis()
-                        ;
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, month);
+                dateAndTime.set(Calendar.HOUR_OF_DAY, 0);
+                dateAndTime.set(Calendar.MINUTE, 0);
+                dateAndTime.set(Calendar.SECOND, 0);
+                long time = dateAndTime.getTimeInMillis();
                 dateAndTime.setTimeInMillis(0);
-                dateAndTime.set(Calendar.DAY_OF_MONTH,dayOfMonth+1);
-                dateAndTime.set(Calendar.YEAR,year);
-                dateAndTime.set(Calendar.MONTH,month);
-                dateAndTime.set(Calendar.HOUR_OF_DAY,0);
-                dateAndTime.set(Calendar.MINUTE,0);
-                dateAndTime.set(Calendar.SECOND,0);
-                long nextDay=dateAndTime.getTimeInMillis();
-                displayEvents(time,nextDay);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth + 1);
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, month);
+                dateAndTime.set(Calendar.HOUR_OF_DAY, 0);
+                dateAndTime.set(Calendar.MINUTE, 0);
+                dateAndTime.set(Calendar.SECOND, 0);
+                long nextDay = dateAndTime.getTimeInMillis();
+                displayEvents(time, nextDay);
             }
         });
     }
@@ -150,11 +146,12 @@ public class EventsActivity extends AppCompatActivity {
         }
 
     }
+
     private void displayEvents() {
         currentList.setText("Все мероприятия, к которым Вы можете присоединиться");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
-        String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events")) { //WARNING//
             @Override
@@ -171,13 +168,10 @@ public class EventsActivity extends AppCompatActivity {
                     eventName.setText(model.getEventName());
                     eventCreator.setText(model.getEventCreator());
                     eventAdress.setText(model.getEventAdress());
-                    if (model.getEventTime() < Calendar.getInstance().getTimeInMillis())
-                    {
+                    if (model.getEventTime() < Calendar.getInstance().getTimeInMillis()) {
                         eventTime.setText("Завершено");
                         eventTime.setTextColor(Color.RED);
-                    }
-                    else
-                    {
+                    } else {
                         eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
                                 model.getEventTime()));
                         eventTime.setTextColor(Color.GRAY);
@@ -186,7 +180,6 @@ public class EventsActivity extends AppCompatActivity {
                 }
             }
         };
-
 
 
         listOfEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -264,34 +257,29 @@ public class EventsActivity extends AppCompatActivity {
         listOfEvents.setAdapter(adapter);
 
     }
-    public void ViewUserEvents(View v)
-    {
+
+    public void ViewUserEvents(View v) {
         flag = false;
         displayUserEvents();
     }
 
-    public void ViewAllEvents(View v)
-    {
+    public void ViewAllEvents(View v) {
         flag = true;
         displayEvents();
     }
 
-    public void ViewHotEvents(View v){
+    public void ViewHotEvents(View v) {
         flag = true;
         displayEvents(Calendar.getInstance().getTimeInMillis(),
                 Calendar.getInstance().getTimeInMillis() + 604800000);
     }
 
     public void join(View v) throws InterruptedException {
-        if (!flag)
-        {
+        if (!flag) {
             Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
-        }
-        else if (dTime.getText().toString().equals("Завершено"))
-        {
+        } else if (dTime.getText().toString().equals("Завершено")) {
             Toast.makeText(this, "Событие уже закончилось", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             EventModel event = new EventModel();
 
             String name = dName.getText().toString();
@@ -322,7 +310,7 @@ public class EventsActivity extends AppCompatActivity {
 
             FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(user);
 
-            Toast.makeText(this, user + " , Вы стали участником события " + name +"!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, user + " , Вы стали участником события " + name + "!", Toast.LENGTH_LONG).show();
 
             displayUserEvents();
 
@@ -334,17 +322,16 @@ public class EventsActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
-    public void visitors(View v)
-    {
+    public void visitors(View v) {
         dialog2 = new Dialog(EventsActivity.this);
         dialog2.setTitle("Список участников");
         dialog2.setContentView(R.layout.visitors_dialog);
-        ListView listView=dialog2.findViewById(R.id.listview);
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Extensions").child(dName.getText().toString()).child("EventVisitors");
-        FirebaseListAdapter<String> visitorsAdapter= new FirebaseListAdapter<String>(this,String.class,R.layout.list_item,reference) {
+        ListView listView = dialog2.findViewById(R.id.listview);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(dName.getText().toString()).child("EventVisitors");
+        FirebaseListAdapter<String> visitorsAdapter = new FirebaseListAdapter<String>(this, String.class, R.layout.list_item, reference) {
             @Override
             protected void populateView(View v, String model, int position) {
-                TextView tv= v.findViewById(R.id.tv);
+                TextView tv = v.findViewById(R.id.tv);
                 tv.setText(model);
             }
         };
@@ -356,7 +343,7 @@ public class EventsActivity extends AppCompatActivity {
         currentList.setText("Мероприятия, в которых вы участвуете");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
-        String user=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         //Toast.makeText(this,user,Toast.LENGTH_LONG).show();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
@@ -380,7 +367,6 @@ public class EventsActivity extends AppCompatActivity {
                 }
             }
         };
-
 
 
         listOfEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -436,10 +422,9 @@ public class EventsActivity extends AppCompatActivity {
 
     }
 
-    public void goToChat(View v)
-    {
+    public void goToChat(View v) {
         String name = dName.getText().toString();
-        Intent intent=new Intent(EventsActivity.this,ChatRoomActivity.class);
+        Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         intent.putExtras(bundle);
@@ -447,8 +432,7 @@ public class EventsActivity extends AppCompatActivity {
         dialogAfterJoining.dismiss();
     }
 
-    public void goToMyEvents(View v)
-    {
+    public void goToMyEvents(View v) {
         displayUserEvents();
         dialogAfterJoining.dismiss();
     }

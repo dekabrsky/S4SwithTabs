@@ -1,20 +1,14 @@
 package com.example.s4swithtabs;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class EventModel {
+    public ArrayList<String> eventVisitors;
     private String eventName;
     private String eventCreator;
     private String eventAdress;
     private long eventTime;
     private String eventInfo;
-    public ArrayList<String> eventVisitors;
 
     public EventModel() {
 //        this.eventCreator = eventCreator;
@@ -58,7 +52,7 @@ public class EventModel {
     }
 
     public void setEventInfo(String eventInfo) {
-        this.eventInfo= eventInfo;
+        this.eventInfo = eventInfo;
     }
 
     public String getEventAdress() {

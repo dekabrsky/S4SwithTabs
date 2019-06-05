@@ -213,17 +213,16 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     }
 
-    public void visitors2(View v)
-    {
+    public void visitors2(View v) {
         Dialog dialog2 = new Dialog(ChatRoomActivity.this);
         dialog2.setTitle("Список участников");
         dialog2.setContentView(R.layout.visitors_dialog);
-        ListView listView=dialog2.findViewById(R.id.listview);
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors");
-        FirebaseListAdapter<String> visitorsAdapter= new FirebaseListAdapter<String>(this,String.class,R.layout.list_item,reference) {
+        ListView listView = dialog2.findViewById(R.id.listview);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors");
+        FirebaseListAdapter<String> visitorsAdapter = new FirebaseListAdapter<String>(this, String.class, R.layout.list_item, reference) {
             @Override
             protected void populateView(View v, String model, int position) {
-                TextView tv= v.findViewById(R.id.tv);
+                TextView tv = v.findViewById(R.id.tv);
                 tv.setText(model);
             }
         };

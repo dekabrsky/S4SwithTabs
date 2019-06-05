@@ -2,9 +2,8 @@ package com.example.s4swithtabs;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -13,26 +12,38 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class EventCreation extends AppCompatActivity {
 
     TextView currentDate;
     TextView currentTime;
-    Calendar dateAndTime=Calendar.getInstance();
+    Calendar dateAndTime = Calendar.getInstance();
     EventModel event;
     EditText eventName;
     EditText eventAdress;
     EditText eventInfo;
+    // установка обработчика выбора времени
+    TimePickerDialog.OnTimeSetListener t = new TimePickerDialog.OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            dateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            dateAndTime.set(Calendar.MINUTE, minute);
+            setInitialDateTime();
+        }
+    };
+    // установка обработчика выбора даты
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +75,12 @@ public class EventCreation extends AppCompatActivity {
                 .show();
     }
 
-    public void setEventData(View v){
+    public void setEventData(View v) {
         if (eventName.getText().toString().equals("") ||
                 eventAdress.getText().toString().equals("") ||
                 eventInfo.getText().toString().equals(""))
             Toast.makeText(this, "Все поля обязательны к заполнению", Toast.LENGTH_LONG).show();
-       else {
+        else {
             event = new EventModel();
             event.setEventName(eventName.getText().toString());
             event.setEventAdress(eventAdress.getText().toString());
@@ -117,8 +128,7 @@ public class EventCreation extends AppCompatActivity {
         }
     }
 
-    public void SendStringsToFirebase(String target, String value)
-    {
+    public void SendStringsToFirebase(String target, String value) {
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Extensions")
@@ -128,8 +138,7 @@ public class EventCreation extends AppCompatActivity {
                 .setValue(value);
     }
 
-    public void SendLongToFirebase(String target, long value)
-    {
+    public void SendLongToFirebase(String target, long value) {
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Extensions")
@@ -139,8 +148,7 @@ public class EventCreation extends AppCompatActivity {
                 .setValue(value);
     }
 
-    public void SendListToFirebase(String target, ArrayList<String> value)
-    {
+    public void SendListToFirebase(String target, ArrayList<String> value) {
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Extensions")
@@ -149,7 +157,8 @@ public class EventCreation extends AppCompatActivity {
                 .push()
                 .setValue(value);
     }
-    public void creationOut(View v){
+
+    public void creationOut(View v) {
         finish();
     }
 
@@ -162,23 +171,4 @@ public class EventCreation extends AppCompatActivity {
         currentTime.setText(DateUtils.formatDateTime(this,
                 dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
     }
-
-    // установка обработчика выбора времени
-    TimePickerDialog.OnTimeSetListener t=new TimePickerDialog.OnTimeSetListener() {
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            dateAndTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            dateAndTime.set(Calendar.MINUTE, minute);
-            setInitialDateTime();
-        }
-    };
-
-    // установка обработчика выбора даты
-    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateTime();
-        }
-    };
 }

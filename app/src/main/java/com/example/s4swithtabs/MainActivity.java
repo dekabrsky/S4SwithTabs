@@ -4,16 +4,12 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
-import android.widget.Toast;
-
-import com.example.s4swithtabs.EventsActivity;
-import com.example.s4swithtabs.MessengesActivity;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends TabActivity {
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

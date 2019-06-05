@@ -9,14 +9,13 @@
     tools:context=".ChatRoomActivity">
 
     <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="Название мероприятия"
-        android:layout_margin="15dp"
         android:id="@+id/chatName"
-        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Название мероприятия"
         android:textColor="@android:color/white"
-        />
+        android:textSize="18dp" />
 
     <ListView
         android:id="@+id/list_of_messages"
@@ -24,10 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/fab"
+        android:layout_below="@+id/chatName"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="16dp"
-        android:layout_below="@+id/chatName"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp"
         android:stackFromBottom="true"
@@ -83,10 +82,10 @@
         android:id="@+id/visitors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:layout_margin="5dp"
-        android:clickable="true"
         android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:clickable="true"
         android:onClick="visitors2"
         android:src="@drawable/ic_supervisor_account_black_24dp"
         android:tint="@android:color/primary_text_dark_nodisable"
@@ -94,7 +93,6 @@
         app:elevation="0px"
         app:fabSize="mini"
         app:pressedTranslationZ="0px"
-        app:rippleColor="#FFFFFF"
-        />
+        app:rippleColor="#FFFFFF" />
 
 </RelativeLayout>

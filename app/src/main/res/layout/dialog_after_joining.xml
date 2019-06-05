@@ -7,37 +7,37 @@
         android:id="@+id/go_to_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_below="@+id/tv_after_joining"
         android:layout_alignParentLeft="true"
-        android:text="В чат"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:layout_weight="1"
         android:background="@android:color/transparent"
-        android:onClick="goToChat"/>
+        android:onClick="goToChat"
+        android:text="В чат" />
 
     <Button
         android:id="@+id/go_to_my_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_below="@+id/tv_after_joining"
         android:layout_alignParentRight="true"
-        android:text="К моим событиям"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:layout_weight="1"
         android:background="@android:color/transparent"
-        android:onClick="goToMyEvents"/>
+        android:onClick="goToMyEvents"
+        android:text="К моим событиям" />
 
     <TextView
         android:id="@+id/tv_after_joining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Вы присоединились к событию. Выберите дальнейшие действия."
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:text="Вы присоединились к событию. Выберите дальнейшие действия." />
 </RelativeLayout>

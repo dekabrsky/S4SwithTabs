@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <CalendarView
@@ -17,60 +17,59 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:src="@drawable/ic_add_black_24dp"
         android:tint="@android:color/white"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        app:fabSize="mini"
-        />
+        app:fabSize="mini" />
 
     <ListView
         android:id="@+id/EventsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/current_list"
-        android:dividerHeight="0dp"
-        android:divider="@android:color/transparent"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/allEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/fab"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/fab"
         android:onClick="ViewAllEvents"
+        android:src="@drawable/ic_all_inclusive_black_24dp"
         android:text="Все"
-        app:fabSize="mini"
-        android:src="@drawable/ic_all_inclusive_black_24dp"/>
+        app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/hotEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/allEventsButton"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/allEventsButton"
         android:onClick="ViewHotEvents"
+        android:src="@drawable/ic_whatshot_black_24dp"
         android:text="Cкоро"
-        app:fabSize="mini"
-        android:src="@drawable/ic_whatshot_black_24dp"/>
+        app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/myEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/hotEventsButton"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/hotEventsButton"
         android:onClick="ViewUserEvents"
+        android:src="@drawable/ic_account_circle_black_24dp"
         android:text="Cкоро"
-        app:fabSize="mini"
-        android:src="@drawable/ic_account_circle_black_24dp"/>
+        app:fabSize="mini" />
 
     <TextView
         android:id="@+id/current_list"
@@ -79,7 +78,6 @@
         android:layout_below="@id/calendarView"
         android:layout_marginLeft="15dp"
         android:text="Выберите список:"
-        android:textStyle="italic"
-        />
+        android:textStyle="italic" />
 
 </RelativeLayout>

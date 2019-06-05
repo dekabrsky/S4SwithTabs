@@ -27,8 +27,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-                android:textStyle="normal|bold"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/message_time"
@@ -37,8 +37,8 @@
                 android:layout_alignBottom="@+id/message_user"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp" />
 
             <TextView
                 android:id="@+id/message_text"
