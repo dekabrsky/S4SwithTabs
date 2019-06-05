@@ -168,7 +168,7 @@ public class EventsActivity extends AppCompatActivity {
                     eventName.setText(model.getEventName());
                     eventCreator.setText(model.getEventCreator());
                     eventAdress.setText(model.getEventAdress());
-                    if (model.getEventTime() < Calendar.getInstance().getTimeInMillis()) {
+                    if (model.getEventTime() + 3600000 < Calendar.getInstance().getTimeInMillis()) {
                         eventTime.setText("Завершено");
                         eventTime.setTextColor(Color.RED);
                     } else {
@@ -346,7 +346,7 @@ public class EventsActivity extends AppCompatActivity {
         String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         //Toast.makeText(this,user,Toast.LENGTH_LONG).show();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
-                R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
+                R.layout.event, FirebaseDatabase.getInstance().getReference().child(user).orderByChild("eventTime").startAt(Calendar.getInstance().getTimeInMillis())) { //WARNING//
             @Override
             protected void populateView(View v, EventModel model, int position) {
 

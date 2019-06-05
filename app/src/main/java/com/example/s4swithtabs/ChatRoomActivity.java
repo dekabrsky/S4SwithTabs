@@ -150,7 +150,6 @@ public class ChatRoomActivity extends AppCompatActivity {
                     // Set their text
 
                     messageText.setText(model.getMessageText());
-                    messageUser.setText(model.getMessageUser());
                     //messageImage.setText(model.getPathToImage());
                     // Format the date before showing it
                     messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
@@ -159,6 +158,9 @@ public class ChatRoomActivity extends AppCompatActivity {
                     if (FirebaseAuth.getInstance().getCurrentUser().getDisplayName().equals(model.getMessageUser())) {
                         messageUser.setText("Я");
                         messageUser.setTextColor(Color.CYAN);
+                    } else {
+                        messageUser.setText(model.getMessageUser());
+                        messageUser.setTextColor(Color.GRAY);
                     }
                 }
             }
