@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorReallyPrimaryLight"
+    android:background="@drawable/oboi3"
     tools:context=".ChatRoomActivity">
 
 
@@ -37,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Введите сообщение"
-            android:maxLines="1"
-            android:inputType="textCapSentences"/>
+            android:inputType="textCapSentences"
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -61,13 +61,13 @@
         android:layout_toLeftOf="@id/fab"
         android:background="@android:color/white"
         android:clickable="true"
+        android:onClick="attachImages"
         android:src="@drawable/ic_attach_file_black_24dp"
         android:tint="@android:color/darker_gray"
         app:backgroundTint="@color/colorReallyPrimaryLight"
         app:elevation="0px"
         app:fabSize="mini"
         app:pressedTranslationZ="0px"
-        app:rippleColor="#FFFFFF"
-        android:onClick="attachImages"/>
+        app:rippleColor="#FFFFFF" />
 
 </RelativeLayout>
