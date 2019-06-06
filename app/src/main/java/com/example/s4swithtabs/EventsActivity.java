@@ -75,7 +75,7 @@ public class EventsActivity extends AppCompatActivity {
             // a welcome Toast
 
             Toast.makeText(this,
-                    "Welcome " + FirebaseAuth.getInstance()
+                    "Добро пожаловать, " + FirebaseAuth.getInstance()
                             .getCurrentUser()
                             .getDisplayName(),
                     Toast.LENGTH_LONG)

@@ -5,9 +5,11 @@
     android:orientation="vertical">
 
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_to_us" />
+        android:id="@+id/edit_to_us"
+        android:hint="Введите сообщение"
+        android:gravity="center" />
 
     <Button
         android:id="@+id/send_to_us"

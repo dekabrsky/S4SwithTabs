@@ -129,7 +129,7 @@ public class EventCreation extends AppCompatActivity {
                     .child(event.getEventName())
                     .child("Messages")
                     .push()
-                    .setValue(new ChatMessage("Hello",
+                    .setValue(new ChatMessage("Добро пожаловать в чате события " + event.getEventName(),
                             FirebaseAuth.getInstance()
                                     .getCurrentUser()
                                     .getDisplayName()));

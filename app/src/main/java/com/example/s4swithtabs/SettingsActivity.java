@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 public class SettingsActivity extends ListActivity {
 
-    final String[] settingsList = new String[]{"Выйти", "Уведомления", "Написать разработчикам"};
+    final String[] settingsList = new String[]{"Выйти", "Справка", "Написать разработчикам"};
     Dialog dialog;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(settingsList));
@@ -43,7 +43,7 @@ public class SettingsActivity extends ListActivity {
             AuthUI.getInstance().signOut(this);
             finish();
         } else if (position == 1)
-            Toast.makeText(this, "Включить/выключить уведомления", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Справка", Toast.LENGTH_LONG).show();
         else if (position == 2) {
             dialog = new Dialog(SettingsActivity.this);
             dialog.setContentView(R.layout.dialog_with_us);
@@ -56,6 +56,6 @@ public class SettingsActivity extends ListActivity {
         String string = editText.getText().toString();
         FirebaseDatabase.getInstance().getReference().child("About App").push().setValue(string + " , " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         dialog.dismiss();
-        Toast.makeText(SettingsActivity.this, "Успешно! Ваше сообщение поступило разработчикам", Toast.LENGTH_LONG);
+        Toast.makeText(SettingsActivity.this, "Успешно! Ваше сообщение поступило разработчикам", Toast.LENGTH_LONG).show();
     }
 }
