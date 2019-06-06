@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class EventsActivity extends AppCompatActivity {
     public boolean flag;
     public ArrayList<String> listForChecking;
     TextView currentList;
+    Button JoinOrChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +219,8 @@ public class EventsActivity extends AppCompatActivity {
                 dCreator.setText(creator);
                 dTime = dialog.findViewById(R.id.dTime);
                 dTime.setText(timeString);
+                JoinOrChat = dialog.findViewById(R.id.JoinButton);
+                JoinOrChat.setText("Присоединиться");
                 dialog.show();
 
 
@@ -256,6 +260,47 @@ public class EventsActivity extends AppCompatActivity {
 
         listOfEvents.setAdapter(adapter);
 
+        listOfEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
+                                    long id) {
+                TextView nameView = itemClicked.findViewById(R.id.eventName);
+                String name = nameView.getText().toString();
+
+                TextView adressView = itemClicked.findViewById(R.id.eventAdress);
+                String adress = adressView.getText().toString();
+
+                TextView infoView = itemClicked.findViewById(R.id.eventInfo);
+                String info = infoView.getText().toString();
+
+                TextView timeView = itemClicked.findViewById(R.id.eventTime);
+                String timeString = timeView.getText().toString();
+                Long time = Long.getLong(timeString);
+
+                TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
+                String creator = creatorView.getText().toString();
+
+                //Toast.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
+
+                dialog = new Dialog(EventsActivity.this);
+                //dialog.setTitle(name);
+                dialog.setContentView(R.layout.diaolog_event);
+                dName = dialog.findViewById(R.id.dName);
+                dName.setText(name);
+                dAdress = dialog.findViewById(R.id.dAdress);
+                dAdress.setText(adress);
+                dInfo = dialog.findViewById(R.id.dInfo);
+                dInfo.setText(info);
+                dCreator = dialog.findViewById(R.id.dCreator);
+                dCreator.setText(creator);
+                dTime = dialog.findViewById(R.id.dTime);
+                dTime.setText(timeString);
+                JoinOrChat = dialog.findViewById(R.id.JoinButton);
+                JoinOrChat.setText("Присоединиться");
+                dialog.show();
+            }
+        });
+
     }
 
     public void ViewUserEvents(View v) {
@@ -276,7 +321,13 @@ public class EventsActivity extends AppCompatActivity {
 
     public void join(View v) throws InterruptedException {
         if (!flag) {
-            Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
+            String name = dName.getText().toString();
+            Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name", name);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            //Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
         } else if (dTime.getText().toString().equals("Завершено")) {
             Toast.makeText(this, "Событие уже закончилось", Toast.LENGTH_LONG).show();
         } else {
@@ -419,6 +470,8 @@ public class EventsActivity extends AppCompatActivity {
                 dCreator.setText(creator);
                 dTime = dialog.findViewById(R.id.dTime);
                 dTime.setText(timeString);
+                JoinOrChat = dialog.findViewById(R.id.JoinButton);
+                JoinOrChat.setText("В чат");
                 dialog.show();
 
             }

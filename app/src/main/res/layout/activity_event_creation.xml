@@ -45,6 +45,8 @@
         android:layout_alignTop="@id/test"
         android:layout_toRightOf="@id/test"
         android:onClick="setTime"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         app:srcCompat="@drawable/ic_access_time_black_24dp"
         tools:ignore="VectorDrawableCompat" />
 
