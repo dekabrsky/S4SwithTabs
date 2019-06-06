@@ -106,7 +106,7 @@ public class MessengesActivity extends AppCompatActivity {
                         "Администрация",
                         "no"
                 ));
-        FirebaseDatabase.getInstance().getReference().child("Extensions").child(user).removeValue();
+        FirebaseDatabase.getInstance().getReference().child("Extensions").child(user).child(name).removeValue();
         dialog.dismiss();
         Toast.makeText(MessengesActivity.this, "Вы покинули чат. Мы уведомили ваших собеседников об этом.", Toast.LENGTH_LONG).show();
     }
