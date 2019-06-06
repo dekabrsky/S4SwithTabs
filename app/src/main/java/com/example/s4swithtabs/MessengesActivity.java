@@ -84,8 +84,10 @@ public class MessengesActivity extends AppCompatActivity {
         listOfChats.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                nameView = view.findViewById(R.id.ctv);
                 Toast.makeText(MessengesActivity.this, "lll", Toast.LENGTH_LONG).show();
                 dialog = new Dialog(MessengesActivity.this);
+                name = nameView.getText().toString();
                 dialog.setContentView(R.layout.dialog_chat);
                 dialog.show();
                 return true;
