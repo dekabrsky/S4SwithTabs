@@ -170,9 +170,14 @@ public class EventsActivity extends AppCompatActivity {
                     eventName.setText(model.getEventName());
                     eventCreator.setText(model.getEventCreator());
                     eventAdress.setText(model.getEventAdress());
+                    eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
+                            model.getEventTime()));
                     if (model.getEventTime() + 3600000 < Calendar.getInstance().getTimeInMillis()) {
                         eventTime.setText("Завершено");
                         eventTime.setTextColor(Color.RED);
+                    } else if (model.getEventTime() < Calendar.getInstance().getTimeInMillis()) {
+                        eventTime.setTextColor(Color.GRAY);
+                        eventTime.setText("Идет с " + eventTime.getText().toString());
                     } else {
                         eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
                                 model.getEventTime()));
@@ -320,6 +325,7 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     public void join(View v) throws InterruptedException {
+        char a = dTime.getText().toString().charAt(0);
         if (!flag) {
             String name = dName.getText().toString();
             Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
@@ -330,6 +336,8 @@ public class EventsActivity extends AppCompatActivity {
             //Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
         } else if (dTime.getText().toString().equals("Завершено")) {
             Toast.makeText(this, "Событие уже закончилось", Toast.LENGTH_LONG).show();
+        } else if (a == 'И') {
+            Toast.makeText(this, "Событие уже идет", Toast.LENGTH_LONG).show();
         } else {
             EventModel event = new EventModel();
 

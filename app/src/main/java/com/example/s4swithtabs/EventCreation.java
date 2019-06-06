@@ -82,7 +82,7 @@ public class EventCreation extends AppCompatActivity {
             Toast.makeText(this, "Все поля обязательны к заполнению", Toast.LENGTH_LONG).show();
         else {
             event = new EventModel();
-            event.setEventName(eventName.getText().toString());
+            //event.setEventName(eventName.getText().toString());
             event.setEventAdress(eventAdress.getText().toString());
             event.setEventInfo(eventInfo.getText().toString());
             event.setEventTime(dateAndTime.getTimeInMillis());
@@ -92,6 +92,11 @@ public class EventCreation extends AppCompatActivity {
 
             String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             event.eventVisitors.add(user);
+
+            String eventNameToBase = eventName.getText().toString();
+            eventNameToBase = eventNameToBase.replaceAll("[\\[\\](){}]", " ");
+            eventNameToBase = eventNameToBase.replaceAll("[.,#,$]", " ");
+            event.setEventName(eventNameToBase);
 
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
             FirebaseDatabase.getInstance()
@@ -105,7 +110,7 @@ public class EventCreation extends AppCompatActivity {
                     .getReference()
                     .child("Extensions")
                     .child(event.getEventName());
-            SendStringsToFirebase("EventName", event.getEventName());
+            SendStringsToFirebase("EventName", eventNameToBase);
             SendStringsToFirebase("EventAdress", event.getEventAdress());
             SendStringsToFirebase("EventInfo", event.getEventInfo());
             SendLongToFirebase("EventTime", event.getEventTime());
