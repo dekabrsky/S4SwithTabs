@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,8 +13,12 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MessengesActivity extends AppCompatActivity {
     ListView listOfChats;
@@ -56,11 +61,11 @@ public class MessengesActivity extends AppCompatActivity {
         listOfChats.setAdapter(adapter);*/
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(user);
-        FirebaseListAdapter<String> visitorsAdapter = new FirebaseListAdapter<String>(this, String.class, R.layout.chatlist_item, reference) {
+        FirebaseListAdapter<chat_class> visitorsAdapter = new FirebaseListAdapter<chat_class>(this, chat_class.class, R.layout.chatlist_item, reference) {
             @Override
-            protected void populateView(View v, String model, int position) {
+            protected void populateView(View v, chat_class model, int position) {
                 TextView ctv = v.findViewById(R.id.ctv);
-                ctv.setText(model);
+                ctv.setText(model.getChatName());
             }
         };
         listOfChats.setAdapter(visitorsAdapter);
@@ -85,7 +90,7 @@ public class MessengesActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 nameView = view.findViewById(R.id.ctv);
-                Toast.makeText(MessengesActivity.this, "lll", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MessengesActivity.this, "lll", Toast.LENGTH_LONG).show();
                 dialog = new Dialog(MessengesActivity.this);
                 name = nameView.getText().toString();
                 dialog.setContentView(R.layout.dialog_chat);
@@ -106,12 +111,28 @@ public class MessengesActivity extends AppCompatActivity {
                         "Администрация",
                         "no"
                 ));
-        FirebaseDatabase.getInstance().getReference().child("Extensions").child(user).child(name).removeValue();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = ref.child("Extensions").child(user).orderByChild("chatName").equalTo(name);
+
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "onCancelled", databaseError.toException());
+            }
+        });
         dialog.dismiss();
         Toast.makeText(MessengesActivity.this, "Вы покинули чат. Мы уведомили ваших собеседников об этом.", Toast.LENGTH_LONG).show();
     }
 
-    private void NoDeleteChat(View v) {
+    public void NoDeleteChat(View v) {
         dialog.dismiss();
     }
 }

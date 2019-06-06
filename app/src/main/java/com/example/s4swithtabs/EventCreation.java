@@ -117,11 +117,12 @@ public class EventCreation extends AppCompatActivity {
             SendStringsToFirebase("EventVisitors", user);
             // конец нового спосособа
 
+
             FirebaseDatabase.getInstance().getReference()
                     .child("Extensions")
                     .child(user)
                     .push()
-                    .setValue(event.getEventName());
+                    .setValue(new chat_class(eventNameToBase));
 
             FirebaseDatabase.getInstance()
                     .getReference()
@@ -129,7 +130,7 @@ public class EventCreation extends AppCompatActivity {
                     .child(event.getEventName())
                     .child("Messages")
                     .push()
-                    .setValue(new ChatMessage("Добро пожаловать в чате события " + event.getEventName(),
+                    .setValue(new ChatMessage("Добро пожаловать в чат события " + event.getEventName(),
                             FirebaseAuth.getInstance()
                                     .getCurrentUser()
                                     .getDisplayName()));

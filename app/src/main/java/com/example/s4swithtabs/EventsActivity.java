@@ -381,7 +381,7 @@ public class EventsActivity extends AppCompatActivity {
                     .child("Extensions")
                     .child(user)
                     .push()
-                    .setValue(name);
+                    .setValue(new chat_class(name));
         }
 
         dialog.dismiss();
