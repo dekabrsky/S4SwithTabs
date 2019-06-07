@@ -38,11 +38,14 @@ public class EventsActivity extends AppCompatActivity {
     public TextView dTime;
     public Dialog dialog;
     public Dialog dialog2;
+    public Dialog dialog3;
     public Dialog dialogAfterJoining;
     public boolean flag;
     public ArrayList<String> listForChecking;
     TextView currentList;
     Button JoinOrChat;
+    boolean bool;
+    boolean otherbool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,14 +329,13 @@ public class EventsActivity extends AppCompatActivity {
 
     public void join(View v) throws InterruptedException {
         char a = dTime.getText().toString().charAt(0);
+        String name = dName.getText().toString();
+
+        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         if (!flag) {
-            String name = dName.getText().toString();
-            Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("name", name);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            //Toast.makeText(this, "Вы уже присоединились к событию", Toast.LENGTH_LONG).show();
+            dialog3 = new Dialog(this);
+            dialog3.setContentView(R.layout.tochatorno_dialog);
+            dialog3.show();
         } else if (dTime.getText().toString().equals("Завершено")) {
             Toast.makeText(this, "Событие уже закончилось", Toast.LENGTH_LONG).show();
         } else if (a == 'И') {
@@ -341,7 +343,7 @@ public class EventsActivity extends AppCompatActivity {
         } else {
             EventModel event = new EventModel();
 
-            String name = dName.getText().toString();
+            //name = dName.getText().toString();
             event.setEventName(name);
 
             String adress = dAdress.getText().toString();
@@ -364,7 +366,7 @@ public class EventsActivity extends AppCompatActivity {
             String creator = dCreator.getText().toString();
             event.setEventCreator(creator);
 
-            String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            //user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
 
             FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(new chat_class(user));
@@ -502,5 +504,41 @@ public class EventsActivity extends AppCompatActivity {
     public void goToMyEvents(View v) {
         displayUserEvents();
         dialogAfterJoining.dismiss();
+    }
+
+    public void Yes(View v) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Extensions")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())
+                .push()
+                .setValue(new chat_class(dName.getText().toString()));
+        Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", dName.getText().toString());
+        intent.putExtras(bundle);
+        startActivity(intent);
+        dialog3.dismiss();
+
+        FirebaseDatabase.getInstance().getReference().child("Extensions").child(dName.getText().toString()).child("EventVisitors").push().setValue(new chat_class(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Chats")
+                .child(dName.getText().toString())
+                .child("Messages")
+                .push()
+                .setValue(new ChatMessage(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " вернулся в чат.",
+                        "Администрация",
+                        "no"
+                ));
+    }
+
+    public void No(View v) {
+        Intent intent = new Intent(EventsActivity.this, ChatRoomActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", dName.getText().toString());
+        intent.putExtras(bundle);
+        startActivity(intent);
+        dialog3.dismiss();
     }
 }

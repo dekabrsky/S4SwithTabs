@@ -5,7 +5,6 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,10 +20,10 @@ import java.util.Arrays;
 public class SettingsActivity extends ListActivity {
 
     final String[] settingsList = new String[]{"Выйти", "Справка", "Написать разработчикам"};
+    public EditText editText;
     Dialog dialog;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> catNamesList = new ArrayList<>(Arrays.asList(settingsList));
-    public EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

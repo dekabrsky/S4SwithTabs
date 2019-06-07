@@ -5,20 +5,20 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/edit_to_us"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_to_us"
-        android:hint="Введите сообщение"
         android:gravity="center"
+        android:hint="Введите сообщение"
         android:inputType="textCapSentences" />
 
     <Button
         android:id="@+id/send_to_us"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Отправить"
         android:background="@android:color/transparent"
-        android:onClick="clickSend" />
+        android:onClick="clickSend"
+        android:text="Отправить" />
 
 
 </LinearLayout>
