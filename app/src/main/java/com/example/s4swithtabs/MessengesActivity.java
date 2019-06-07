@@ -128,6 +128,24 @@ public class MessengesActivity extends AppCompatActivity {
                 Log.e("Firebase", "onCancelled", databaseError.toException());
             }
         });
+
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery2 = ref2.child("Extensions").child(name).child("EventVisitors").orderByChild("chatName").equalTo(user);
+
+        applesQuery2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "onCancelled", databaseError.toException());
+            }
+        });
+
         dialog.dismiss();
         Toast.makeText(MessengesActivity.this, "Вы покинули чат. Мы уведомили ваших собеседников об этом.", Toast.LENGTH_LONG).show();
     }

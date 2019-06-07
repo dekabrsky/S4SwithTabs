@@ -367,7 +367,7 @@ public class EventsActivity extends AppCompatActivity {
             String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
 
-            FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(user);
+            FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(new chat_class(user));
 
             Toast.makeText(this, user + " , Вы стали участником события " + name + "!", Toast.LENGTH_LONG).show();
 
@@ -393,11 +393,11 @@ public class EventsActivity extends AppCompatActivity {
         dialog2.setContentView(R.layout.visitors_dialog);
         ListView listView = dialog2.findViewById(R.id.listview);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(dName.getText().toString()).child("EventVisitors");
-        FirebaseListAdapter<String> visitorsAdapter = new FirebaseListAdapter<String>(this, String.class, R.layout.list_item, reference) {
+        FirebaseListAdapter<chat_class> visitorsAdapter = new FirebaseListAdapter<chat_class>(this, chat_class.class, R.layout.list_item, reference) {
             @Override
-            protected void populateView(View v, String model, int position) {
+            protected void populateView(View v, chat_class model, int position) {
                 TextView tv = v.findViewById(R.id.tv);
-                tv.setText(model);
+                tv.setText(model.getChatName());
             }
         };
         listView.setAdapter(visitorsAdapter);

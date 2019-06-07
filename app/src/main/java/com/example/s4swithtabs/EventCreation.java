@@ -114,7 +114,13 @@ public class EventCreation extends AppCompatActivity {
             SendStringsToFirebase("EventAdress", event.getEventAdress());
             SendStringsToFirebase("EventInfo", event.getEventInfo());
             SendLongToFirebase("EventTime", event.getEventTime());
-            SendStringsToFirebase("EventVisitors", user);
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Extensions")
+                    .child(event.getEventName())
+                    .child("EventVisitors")
+                    .push()
+                    .setValue(new chat_class(user));
             // конец нового спосособа
 
 
