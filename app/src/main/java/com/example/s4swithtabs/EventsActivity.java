@@ -23,10 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class EventsActivity extends AppCompatActivity {
@@ -41,11 +39,9 @@ public class EventsActivity extends AppCompatActivity {
     public Dialog dialog3;
     public Dialog dialogAfterJoining;
     public boolean flag;
-    public ArrayList<String> listForChecking;
     TextView currentList;
     Button JoinOrChat;
-    boolean bool;
-    boolean otherbool = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,16 +92,6 @@ public class EventsActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year,
                                             int month, int dayOfMonth) {
-                int mYear = year;
-                int mMonth = month;
-                int mDay = dayOfMonth;
-                long longYear = year;
-                TimeZone timeZone = dateAndTime.getTimeZone();
-                int offset = timeZone.getRawOffset();
-                String selectedDate = new StringBuilder().append(mMonth + 1)
-                        .append("-").append(mDay).append("-").append(mYear)
-                        .append(" ").toString();
-                //Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
                 dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 dateAndTime.set(Calendar.YEAR, year);
                 dateAndTime.set(Calendar.MONTH, month);
@@ -156,9 +142,8 @@ public class EventsActivity extends AppCompatActivity {
         currentList.setText("Все мероприятия, к которым Вы можете присоединиться");
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
-        String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
-                R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events")) { //WARNING//
+                R.layout.event, FirebaseDatabase.getInstance().getReference().child("Events")) {
             @Override
             protected void populateView(View v, EventModel model, int position) {
 
@@ -212,10 +197,7 @@ public class EventsActivity extends AppCompatActivity {
                 TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
                 String creator = creatorView.getText().toString();
 
-                //Toast.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
-
                 dialog = new Dialog(EventsActivity.this);
-                //dialog.setTitle(name);
                 dialog.setContentView(R.layout.diaolog_event);
                 dName = dialog.findViewById(R.id.dName);
                 dName.setText(name);
@@ -230,11 +212,8 @@ public class EventsActivity extends AppCompatActivity {
                 JoinOrChat = dialog.findViewById(R.id.JoinButton);
                 JoinOrChat.setText("Присоединиться");
                 dialog.show();
-
-
             }
         });
-
         listOfEvents.setAdapter(adapter);
     }
 
@@ -283,15 +262,11 @@ public class EventsActivity extends AppCompatActivity {
 
                 TextView timeView = itemClicked.findViewById(R.id.eventTime);
                 String timeString = timeView.getText().toString();
-                Long time = Long.getLong(timeString);
 
                 TextView creatorView = itemClicked.findViewById(R.id.eventCreator);
                 String creator = creatorView.getText().toString();
 
-                //Toast.makeText(getApplicationContext(), name + adress + info, Toast.LENGTH_LONG).show();
-
                 dialog = new Dialog(EventsActivity.this);
-                //dialog.setTitle(name);
                 dialog.setContentView(R.layout.diaolog_event);
                 dName = dialog.findViewById(R.id.dName);
                 dName.setText(name);
@@ -343,7 +318,6 @@ public class EventsActivity extends AppCompatActivity {
         } else {
             EventModel event = new EventModel();
 
-            //name = dName.getText().toString();
             event.setEventName(name);
 
             String adress = dAdress.getText().toString();
@@ -366,12 +340,21 @@ public class EventsActivity extends AppCompatActivity {
             String creator = dCreator.getText().toString();
             event.setEventCreator(creator);
 
-            //user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             FirebaseDatabase.getInstance().getReference().child(user).push().setValue(event);
 
             FirebaseDatabase.getInstance().getReference().child("Extensions").child(name).child("EventVisitors").push().setValue(new chat_class(user));
 
             Toast.makeText(this, user + " , Вы стали участником события " + name + "!", Toast.LENGTH_LONG).show();
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Chats")
+                    .child(dName.getText().toString())
+                    .child("Messages")
+                    .push()
+                    .setValue(new ChatMessage(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " Присоединился к событию",
+                            "Администрация",
+                            "no"
+                    ));
 
             displayUserEvents();
 
@@ -411,7 +394,6 @@ public class EventsActivity extends AppCompatActivity {
         ListView listOfEvents = findViewById(R.id.EventsList);
         FirebaseListAdapter<EventModel> adapter;
         String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        //Toast.makeText(this,user,Toast.LENGTH_LONG).show();
         adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
                 R.layout.event, FirebaseDatabase.getInstance().getReference().child(user).orderByChild("eventTime").startAt(Calendar.getInstance().getTimeInMillis())) { //WARNING//
             @Override

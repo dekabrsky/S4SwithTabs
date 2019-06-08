@@ -34,31 +34,6 @@ public class MessengesActivity extends AppCompatActivity {
 
         listOfChats = findViewById(R.id.ChatsList);
         user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        /*FirebaseListAdapter<EventModel> adapter;
-
-        adapter = new FirebaseListAdapter<EventModel>(this, EventModel.class,
-                R.layout.event, FirebaseDatabase.getInstance().getReference().child(user)) { //WARNING//
-            @Override
-            protected void populateView(View v, EventModel model, int position) {
-
-                if (model.getEventName() != null) {
-                    TextView eventName = v.findViewById(R.id.eventName);
-                    TextView eventCreator = v.findViewById(R.id.eventCreator);
-                    TextView eventAdress = v.findViewById(R.id.eventAdress);
-                    TextView eventTime = v.findViewById(R.id.eventTime);
-                    TextView eventInfo = v.findViewById(R.id.eventInfo);
-
-
-                    eventName.setText(model.getEventName());
-                    eventCreator.setText(model.getEventCreator());
-                    eventAdress.setText(model.getEventAdress());
-                    eventTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm)",
-                            model.getEventTime()));
-                    eventInfo.setText(model.getEventInfo());
-                }
-            }
-        };
-        listOfChats.setAdapter(adapter);*/
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Extensions").child(user);
         FirebaseListAdapter<chat_class> visitorsAdapter = new FirebaseListAdapter<chat_class>(this, chat_class.class, R.layout.chatlist_item, reference) {

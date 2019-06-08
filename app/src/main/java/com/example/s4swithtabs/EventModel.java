@@ -11,14 +11,7 @@ public class EventModel {
     private String eventInfo;
 
     public EventModel() {
-//        this.eventCreator = eventCreator;
-//        this.eventName= eventName;
-//        this.eventAdress = eventAdress;
-//        this.eventTime = eventTime;
-//        this.eventInfo = eventInfo;
 //
-//        // Initialize to current time
-//       eventTime = new Date().getTime();
 
         this.eventVisitors = new ArrayList<String>();
     }

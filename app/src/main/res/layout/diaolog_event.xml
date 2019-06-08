@@ -65,8 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
-        android:onClick="join"
         android:background="@android:color/transparent"
+        android:onClick="join"
         android:text="Присоединиться" />
 
     <Button
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
         android:layout_alignParentRight="true"
-        android:onClick="visitors"
         android:background="@android:color/transparent"
+        android:onClick="visitors"
         android:text="Участники" />
 </RelativeLayout>
